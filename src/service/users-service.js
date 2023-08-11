@@ -12,7 +12,7 @@ const getByUsername = async (username) => {
             username: username
         },
         attributes: ["username", "createdAt", "updatedAt"],
-        include: ["contacts"]
+        include: ["contacts", "orders"]
     });
     if (users == null) {
         throw new ResponseError(404, "Users Not Found");

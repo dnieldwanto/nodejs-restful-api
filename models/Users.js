@@ -1,5 +1,3 @@
-const Contact = require("./Contact.js");
-
 module.exports = (sequelize, DataTypes) => {
     const Users = sequelize.define(
         "Users",
@@ -36,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         Users.hasOne(models.Contacts, {
             foreignKey: "username",
             as: "contacts"});
+        Users.hasMany(models.Orders, {
+            foreignKey: "username",
+            as: "orders"
+        })
     };
 
     return Users
