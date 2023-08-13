@@ -34,19 +34,22 @@ const updateContact = async (username, id, request) => {
     return await contactUser.save();
 }
 
-const getContactById = async (username, id) => {
+const getContactById = async (username) => {
     username = validate(getByUsernameSchema, username);
-    id = validate(getIdSchema, id);
-    const user = await getUserByUsername(username);
-    const contact = await findByIdAndUsername(id, user.username)
+    const contact = await Contacts.findOne({
+        where: {
+            username: username
+        },
+        include: ["address"]
+    })
     return contact;
 }
 
-const deleteContact = async (id) => {
-    id = validate(getIdSchema, id);
+const deleteContact = async (username) => {
+    username = validate(getByUsernameSchema, username);
     const contact = await Contacts.findOne({
         where: {
-            id: id
+            username: username
         }
     });
 

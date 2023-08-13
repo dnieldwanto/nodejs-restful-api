@@ -31,9 +31,8 @@ const update = async (req, res, next) => {
 
 const getById = async(req, res, next) => {
     try {
-        const id = req.query.id;
         const username = req.user.username
-        const result = await contactService.getContactById(username, id);
+        const result = await contactService.getContactById(username);
         res.json({
             status: 200,
             message: "OK",
@@ -46,8 +45,8 @@ const getById = async(req, res, next) => {
 
 const deleteContact = async(req, res, next) => {
     try {
-        const id = req.params.id;
-        await contactService.deleteContact(id);
+        const username = req.user.username;
+        await contactService.deleteContact(username);
         res.json({
             status: 200,
             message: "OK"

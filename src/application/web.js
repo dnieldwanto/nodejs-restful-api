@@ -1,12 +1,11 @@
 const express = require("express");
-const { userRouter } = require("../route/noauth-api.js");
-const { errorMiddleware } = require("../middleware/error-middleware.js");
-const { router } = require("../route/api.js");
+const route = require("../route");
+const middleware = require("../middleware")
+const { errorMiddleware } = middleware.errorMiddleware
 
 const web = express();
 web.use(express.json());
-web.use(userRouter);
-web.use(router);
+web.use(route());
 web.use(errorMiddleware);
 
 module.exports = {
