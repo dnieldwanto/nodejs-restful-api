@@ -1,7 +1,7 @@
 const express = require("express");
-const route = require("../route");
-const swaggerRoute = require("../swagger");
-const middleware = require("../middleware");
+const route = require("./route");
+const swaggerRoute = require("./swagger");
+const middleware = require("./middleware");
 const { errorMiddleware } = middleware.errorMiddleware
 
 const web = express();

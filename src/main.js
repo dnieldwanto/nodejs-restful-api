@@ -1,4 +1,4 @@
-const { web } = require("./application/web.js");
+const { web } = require("./web.js");
 
 const port = process.env.PORT || 3000
 web.listen(port, () => {
