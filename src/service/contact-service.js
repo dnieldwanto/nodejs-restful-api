@@ -1,7 +1,7 @@
 const { createUpdateContactSchema, getIdSchema } = require("../validation/contact-validation.js")
 const { getByUsernameSchema } = require("../validation/users-validation.js")
 const { validate } = require("../validation/validation.js")
-const { Users, Contacts } = require("../../models")
+const { Users, Contacts } = require("../models")
 const { ResponseError } = require("../error/response-error.js")
 
 const createContact = async (username, request) => {

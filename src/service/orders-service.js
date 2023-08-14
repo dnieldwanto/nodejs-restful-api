@@ -1,7 +1,7 @@
 const { createOrderSchema, getIdOrderSchema } = require("../validation/orders-validation.js");
 const { getByUsernameSchema } = require("../validation/users-validation.js");
 const { validate } = require("../validation/validation.js");
-const { Users, Orders, Products } = require("../../models");
+const { Users, Orders, Products } = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 const { STATUS_ORDER } = require("../enum/status-order.js");
 

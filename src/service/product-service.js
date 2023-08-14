@@ -1,6 +1,6 @@
 const { createUpdateProductSchema, idSchema } = require("../validation/products-validation.js")
 const { validate } = require("../validation/validation.js")
-const { Categories, Suppliers, Products } = require("../../models");
+const { Categories, Suppliers, Products } = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 
 const createProduct = async (request) => {

@@ -1,6 +1,6 @@
 const { getByUsernameSchema, updateUsersSchema } = require("../validation/users-validation.js")
 const { validate } = require("../validation/validation.js")
-const { Users } = require("../../models/");
+const { Users } = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 const bcrypt = require("bcrypt");
 

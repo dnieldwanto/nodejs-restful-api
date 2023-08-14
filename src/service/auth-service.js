@@ -1,4 +1,4 @@
-const {Users} = require("../../models");
+const {Users} = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 const { createUser, loginUserSchema } = require("../validation/auth-validation.js")
 const { validate } = require("../validation/validation.js")
@@ -43,8 +43,10 @@ const loginUser = async (request) => {
     }
 
     const token = jwt.sign({
+        when: Date.now(),
         username: dataUser.username
     }, process.env.SECRET_KEY, {
+        algorithm: process.env.JWT_ALGO,
         expiresIn: process.env.JWT_EXPIRED
     });
 

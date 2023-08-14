@@ -1,6 +1,6 @@
 const { createUpdateAddressSchema, validIdSchema } = require("../validation/address-validation.js");
 const { validate } = require("../validation/validation.js")
-const { Contacts, Address } = require("../../models");
+const { Contacts, Address } = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 const { getIdSchema } = require("../validation/contact-validation.js");
 

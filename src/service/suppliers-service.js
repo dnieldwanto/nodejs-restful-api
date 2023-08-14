@@ -1,6 +1,6 @@
 const { createUpdateSupplierSchema, getByIdSchema } = require("../validation/suppliers-validation.js");
 const { validate } = require("../validation/validation.js");
-const { Suppliers } = require("../../models");
+const { Suppliers } = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 
 const createSupplier = async(request) => {

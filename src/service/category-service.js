@@ -1,4 +1,4 @@
-const { Categories } = require("../../models");
+const { Categories } = require("../models");
 const { ResponseError } = require("../error/response-error.js");
 const { createUpdateCategorySchema, getByIdSchema } = require("../validation/category-validation.js");
 const { validate } = require("../validation/validation.js");
