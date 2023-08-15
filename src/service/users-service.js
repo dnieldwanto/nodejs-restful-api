@@ -1,19 +1,12 @@
 const { getByUsernameSchema, updateUsersSchema } = require("../validation/users-validation.js")
 const { validate } = require("../validation/validation.js")
-const { Users } = require("../models");
+const db = require("../utilities/database")
 const { ResponseError } = require("../error/response-error.js");
 const bcrypt = require("bcrypt");
 
 const getByUsername = async (username) => {
     username = validate(getByUsernameSchema, username);
-
-    const users = await Users.findOne({
-        where: {
-            username: username
-        },
-        attributes: ["username", "createdAt", "updatedAt"],
-        include: ["contacts", "orders"]
-    });
+    const users = await db.findOneByCondition({username: username}, "Users", ["username", "createdAt", "updatedAt"], ["contacts", "orders"])
     if (users == null) {
         throw new ResponseError(404, "Users Not Found");
     }
@@ -22,11 +15,7 @@ const getByUsername = async (username) => {
 }
 
 const getAllUser = async () => {
-    const user = await Users.findAll({
-        order: [["username", "asc"]],
-        attributes: ["username", "createdAt", "updatedAt"],
-        include: ["contacts"]
-    });
+    const user = await db.findAllData({}, "Users", [["username", "asc"]], ["username", "createdAt", "updatedAt"], ["contacts, orders"]);
     return user;
 }
 
@@ -34,34 +23,25 @@ const updateUser = async (username, request) => {
     username = validate(getByUsernameSchema, username);
     const validRequest = validate(updateUsersSchema, request);
 
-    const users = await Users.findByPk(username);
+    const users = await db.findByPrimaryKey(username, "Users", ["username", "createdAt", "updatedAt"]);
     if (users === null) {
         throw new ResponseError(404, "Users Not Found");
     }
 
-    // if (users.username !== validRequest.username) {
-    //     const isUsernameExists = await Users.findOne({
-    //         where: {
-    //             username: validRequest.username
-    //         }
-    //     });
-    //     if (isUsernameExists) {
-    //         throw new ResponseError(400, "Username already exists");
-    //     }
-    // }
-
     validRequest.password = await bcrypt.hash(validRequest.password, 10);
     users.password = validRequest.password;
-    return await users.save();
+    await db.updateData({username: username}, {password: users.password}, "Users");
+    const result = {
+        username: users.username,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt
+    }
+    return result;
 }
 
 const deleteUsers = async (username) => {
     username = validate(getByUsernameSchema, username);
-    const users = await Users.findByPk(username);
-    if (users === null) {
-        throw new ResponseError(404, "Users Not Found");
-    }
-    return await users.destroy();
+    return await db.deleteData({username: username}, "Users");
 }
 
 module.exports = {

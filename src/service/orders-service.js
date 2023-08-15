@@ -1,7 +1,7 @@
 const { createOrderSchema, getIdOrderSchema } = require("../validation/orders-validation.js");
 const { getByUsernameSchema } = require("../validation/users-validation.js");
 const { validate } = require("../validation/validation.js");
-const { Users, Orders, Products } = require("../models");
+const db = require("../utilities/database")
 const { ResponseError } = require("../error/response-error.js");
 const { STATUS_ORDER } = require("../enum/status-order.js");
 
@@ -9,12 +9,12 @@ const createOrder = async (username, request) => {
     username = validate(getByUsernameSchema, username);
     const requestOrder = validate(createOrderSchema, request);
 
-    const user = await Users.findByPk(username);
+    const user = await db.findByPrimaryKey(username, "Users", ["username"]);
     if (user === null) {
         throw new ResponseError(404, "User Not Found");
     }
 
-    const product = await Products.findByPk(requestOrder.productId);
+    const product = await db.findByPrimaryKey(requestOrder.productId, "Products", ["productName", "price", "stock"]);
     if (product === null) {
         throw new ResponseError(404, "Product Not Found");
     }
@@ -34,23 +34,28 @@ const createOrder = async (username, request) => {
         username: user.username,
         productId: requestOrder.productId
     }
-    const order = await Orders.create(orderCreate);
-    product.stock = product.stock - requestOrder.quantity;
-    await product.save();
-    return order
+    await db.saveData(orderCreate, "Orders");
+    const payload = {
+        stock: product.stock - requestOrder.quantity
+    }
+    await db.updateData({id: requestOrder.productId}, payload, "Products")
+    return orderCreate
 }
 
 const orderDone = async (id) => {
     id = validate(getIdOrderSchema, id);
 
-    const order = await Orders.findByPk(id);
+    const order = await db.findByPrimaryKey(id, "Orders", ["id", "orderNumber", "orderDate", "quantity", "total", "username", "productId", "statusOrder", "isActive"])
     if (order === null) {
         throw new ResponseError(404, "Order not Found")
     }
 
-    order.statusOrder = STATUS_ORDER.DONE;
-    order.isActive = 0;
-    return await order.save();
+    const payload = {
+        statusOrder: STATUS_ORDER.DONE,
+        isActive: 0
+    }
+    await db.updateData({id: id}, payload, "Orders");
+    return order
 }
 
 const generateOrderNumber = () => {

@@ -1,4 +1,4 @@
-const {Users} = require("../models");
+const db = require("../utilities/database")
 const { ResponseError } = require("../error/response-error.js");
 const { createUser, loginUserSchema } = require("../validation/auth-validation.js")
 const { validate } = require("../validation/validation.js")
@@ -11,28 +11,32 @@ dotenv.config();
 const registerUser = async (request) => {
     const user = validate(createUser, request);
 
-    const findUser = await Users.findAll({ 
-        where: { 
-            username: user.username 
-        }
-    });
+    // const findUser = await Users.findAll({ 
+    //     where: { 
+    //         username: user.username 
+    //     }
+    // });
 
-    if (findUser.length !== 0) {
+    const findUser = await db.findOneByCondition(
+        {
+            username: user.username
+        }, 
+        "Users", 
+        ["username", "createdAt", "updatedAt"]
+        );
+
+    if (findUser) {
         throw new ResponseError(400, "Username already exists")
     }
 
     user.password = await bcrypt.hash(user.password, 10);
-    return await Users.create(user);
+    return await db.saveData({username: user.username, password: user.password}, "Users");
 }
 
 const loginUser = async (request) => {
     const validLogin = validate(loginUserSchema, request);
-    const dataUser = await Users.findOne({
-        where: {
-            username: validLogin.username
-        }
-    });
 
+    const dataUser = await db.findOneByCondition({username: validLogin.username}, "Users", ["username", "password", "createdAt", "updatedAt"])
     if (!dataUser) {
         throw new ResponseError(401, "Username atau password salah");
     }
@@ -51,7 +55,7 @@ const loginUser = async (request) => {
     });
 
     dataUser.token = token;
-    await dataUser.save();
+    await db.updateData({ username: dataUser.username }, { token: dataUser.token }, "Users");
 
     const result = {
         type: "Bearer",
@@ -63,18 +67,14 @@ const loginUser = async (request) => {
 
 const logoutUser = async (username) => {
     username = validate(getByUsernameSchema, username);
-    const user = await Users.findOne({
-        where: {
-            username: username
-        }
-    });
+    const user = await db.findOneByCondition({username: username}, "Users", ["username", "createdAt", "updatedAt"])
 
     if (!user) {
         throw new ResponseError(404, "User Not Found");
     }
 
     user.token = null;
-    return await user.save();
+    return await db.updateData({username: user.username}, {token: user.token}, "Users");
 }
 
 module.exports = {

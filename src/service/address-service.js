@@ -1,6 +1,6 @@
 const { createUpdateAddressSchema, validIdSchema } = require("../validation/address-validation.js");
 const { validate } = require("../validation/validation.js")
-const { Contacts, Address } = require("../models");
+const db = require("../utilities/database")
 const { ResponseError } = require("../error/response-error.js");
 const { getIdSchema } = require("../validation/contact-validation.js");
 
@@ -17,7 +17,9 @@ const createAddress = async (contactId, request) => {
         postalCode: address.postalCode,
         contactId: contact.id
     }
-    return await Address.create(newAddress);
+
+    await db.saveData(newAddress, "Address");
+    return newAddress;
 }
 
 const updateAddress = async (contactId, id, request) => {
@@ -25,15 +27,16 @@ const updateAddress = async (contactId, id, request) => {
     id = validate(validIdSchema, id);
     const addressRequest = validate(createUpdateAddressSchema, request);
     const contact = await getContactById(contactId);
-    const address = await findByIdAndContactId(id, contact.id)
 
-    address.street = addressRequest.street,
-    address.city = addressRequest.city,
-    address.province = addressRequest.province,
-    address.country = addressRequest.country,
-    address.postalCode = addressRequest.postalCode
-
-    return await address.save();
+    const payload = {
+        street: addressRequest.street,
+        city: addressRequest.city,
+        province: addressRequest.province,
+        country: addressRequest.country,
+        postalCode: addressRequest.postalCode
+    }
+    await db.updateData({id: id, contactId: contact.id}, payload, "Address")
+    return payload;
 }
 
 const getAddressByIdUsername = async (contactId, id) => {
@@ -47,13 +50,7 @@ const getAddressByIdUsername = async (contactId, id) => {
 const getAllAddressByUsername = async (contactId) => {
     contactId = validate(getIdSchema, contactId);
     const contact = await getContactById(contactId);
-    const address = await Address.findAll({
-        where: {
-            contactId: contact.id
-        },
-        order: [["id", "asc"]]
-    });
-
+    const address = await db.findAllData({contactId: contact.id}, "Address", [["id", "asc"]])
     return address
 }
 
@@ -61,17 +58,11 @@ const deleteAddress = async (contactId, id) => {
     contactId = validate(getIdSchema, contactId);
     id = validate(validIdSchema, id);
     const contact = await getContactById(contactId);
-    const address = await findByIdAndContactId(id, contact.id)
-    return await address.destroy();
+    return await db.deleteData({id: id, contactId: contact.id}, "Address");
 }
 
 const getContactById = async (id) => {
-    const contact = await Contacts.findOne({
-        where: {
-            id: id
-        }
-    });
-
+    const contact = await db.findOneByCondition({id: id}, "Contacts", ["id", "firstName", "lastName", "email", "phone"])
     if (contact === null) {
         throw new ResponseError(404, "Contact Not Found");
     }
@@ -79,12 +70,7 @@ const getContactById = async (id) => {
 }
 
 const findByIdAndContactId = async (id, contactId) => {
-    const address = await Address.findOne({
-        where: {
-            id: id,
-            contactId: contactId
-        }
-    });
+    const address = await db.findOneByCondition({id: id, contactId: contactId}, "Address", ["street", "city", "province", "country", "postalCode", "contactId"])
     if (address === null) {
         throw new ResponseError(404, "Address Not Found");
     }

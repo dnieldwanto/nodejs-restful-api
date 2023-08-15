@@ -1,43 +1,39 @@
-const { Categories } = require("../models");
+// const { Categories } = require("../models");
+const db = require("../utilities/database");
 const { ResponseError } = require("../error/response-error.js");
 const { createUpdateCategorySchema, getByIdSchema } = require("../validation/category-validation.js");
 const { validate } = require("../validation/validation.js");
 
 const createCategory = async (request) => {
     const category = validate(createUpdateCategorySchema, request);
-    return await Categories.create(category);
+    await db.saveData(category, "Categories");
+    return category;
 }
 
 const updateCategory = async (id, request) => {
     id = validate(getByIdSchema, id);
     const requestCategory = validate(createUpdateCategorySchema, request);
 
-    const category = await Categories.findByPk(id);
+    const category = await db.findByPrimaryKey(id, "Categories", ["categoryName", "description"]);
     if (category === null) {
         throw new ResponseError(404, "Category Not Found");
     }
-
-    category.categoryName = requestCategory.categoryName;
-    category.description = requestCategory.description;
-    return await category.save();
+    const payload = {
+        categoryName: requestCategory.categoryName,
+        description: requestCategory.description
+    }
+    await db.updateData({id: id}, payload, "Categories");
+    return payload;
 }
 
 const deleteCategory = async (id) => {
     id = validate(getByIdSchema, id);
-
-    const category = await Categories.findByPk(id);
-    if (category === null) {
-        throw new ResponseError(404, "Category Not Found");
-    }
-
-    return await category.destroy();
+    return await db.deleteData({id: id}, "Categories");
 }
 
 const getCategoryById = async (id) => {
     id = validate(getByIdSchema, id);
-    const category = await Categories.findByPk(id, {
-        include: ["products"]
-    });
+    const category = await db.findByPrimaryKey(id, "Categories", ["categoryName", "description"]);
     if (category === null) {
         throw new ResponseError(404, "Category Not Found");
     }
@@ -46,10 +42,7 @@ const getCategoryById = async (id) => {
 }
 
 const getAllCategory = async () => {
-    const category = await Categories.findAll({
-        include: ["products"],
-        order: [["id", "asc"]]
-    });
+    const category = await db.findAllData({}, "Categories", [["id", "asc"]], ["categoryName", "description"], ["products"])
     return category;
 }
 

@@ -1,42 +1,40 @@
 const { createUpdateSupplierSchema, getByIdSchema } = require("../validation/suppliers-validation.js");
 const { validate } = require("../validation/validation.js");
-const { Suppliers } = require("../models");
+const db = require("../utilities/database");
 const { ResponseError } = require("../error/response-error.js");
 
 const createSupplier = async(request) => {
     const supplier = validate(createUpdateSupplierSchema, request);
-    return await Suppliers.create(supplier);
+    await db.saveData(supplier, "Suppliers");
+    return supplier;
 }
 
 const updateSupplier = async(id, request) => {
     id = validate(getByIdSchema, id);
     const supplierRequest = validate(createUpdateSupplierSchema, request);
 
-    const supplier = await Suppliers.findByPk(id);
+    const supplier = await db.findByPrimaryKey(id, "Suppliers", ["supplierName", "supplierAddress", "supplierPhone"])
     if (supplier === null) {
         throw new ResponseError(404, "Supplier Not Found");
     }
 
-    supplier.supplierName = supplierRequest.supplierName;
-    supplier.supplierAddress = supplierRequest.supplierAddress;
-    supplier.supplierPhone = supplierRequest.supplierPhone;
-    return await supplier.save();
+    const payload = {
+        supplierName: supplierRequest.supplierName,
+        supplierAddress: supplierRequest.supplierAddress,
+        supplierPhone: supplierRequest.supplierPhone
+    }
+    await db.updateData({id: id}, payload, "Suppliers");
+    return payload
 }
 
 const deleteSupplier = async (id) => {
     id = validate(getByIdSchema, id);
-    const supplier = await Suppliers.findByPk(id);
-    if (supplier === null) {
-        throw new ResponseError(404, "Supplier Not Found");
-    }
-    return await supplier.destroy();
+    return await db.deleteData({id: id}, "Suppliers");
 }
 
 const getSupplierById = async(id) => {
     id = validate(getByIdSchema, id);
-    const supplier = await Suppliers.findByPk(id, {
-        include: ["products"]
-    });
+    const supplier = await db.findByPrimaryKey(id, "Suppliers", ["supplierName", "supplierAddress", "supplierPhone"]);
     if (supplier === null) {
         throw new ResponseError(404, "Supplier Not Found");
     }
@@ -44,10 +42,7 @@ const getSupplierById = async(id) => {
 }
 
 const getAllSupplier = async () => {
-    const supplier = await Suppliers.findAll({
-        include: ["products"],
-        order: [["id", "asc"]]
-    });
+    const supplier = await db.findAllData({}, "Suppliers", [["id", "asc"]], ["supplierName", "supplierAddress", "supplierPhone"], ["products"]);
     return supplier;
 }
 

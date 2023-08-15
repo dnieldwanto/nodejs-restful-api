@@ -1,4 +1,4 @@
-const {Users} = require("../models")
+const db = require("../utilities/database")
 const JWT = require("jsonwebtoken")
 
 const authentication = async (req, res, next) => {
@@ -7,12 +7,7 @@ const authentication = async (req, res, next) => {
         if (token && token.startsWith("Bearer ")) {
             const jwtToken = token.split(" ")[1];
             JWT.verify(jwtToken, process.env.SECRET_KEY);
-            const user = await Users.findOne({
-                where: {
-                    token: jwtToken
-                },
-                include: ["contacts"]
-            });
+            const user = await db.findOneByCondition({token: jwtToken}, "Users", ["username"], ["contacts"])
             if (!user) {
                 res.json({
                     status: 401,
