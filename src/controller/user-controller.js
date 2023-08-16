@@ -4,10 +4,8 @@ const getUserByUsername = async (req, res, next) => {
     try {
         const username = req.user.username;
         const result = await userService.getByUsername(username);
-        res.json({
-            status: 200,
-            data: result
-        });
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -16,10 +14,8 @@ const getUserByUsername = async (req, res, next) => {
 const getAllUsers = async (req, res, next) => {
     try {
         const result = await userService.getAllUser();
-        res.json({
-            status: 200,
-            data: result
-        })
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -29,11 +25,8 @@ const userUpdate = async (req, res, next) => {
     try {
         const username = req.user.username;
         const result = await userService.updateUser(username, req.body);
-        res.json({
-            status: 200,
-            message: "Successfully update",
-            data: result
-        })
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -43,10 +36,8 @@ const userDelete = async (req, res, next) => {
     try {
         const username = req.user.username;
         await userService.deleteUsers(username);
-        res.json({
-            status: 200,
-            message: "Successfully delete"
-        });
+        req.message = "Successfully delete your account";
+        next();
     } catch (e) {
         next(e);
     }

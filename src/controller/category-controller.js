@@ -3,11 +3,8 @@ const categoryService = require("../service/category-service.js");
 const create = async (req, res, next) => {
     try {
         const result = await categoryService.createCategory(req.body);
-        res.json({
-            status: 200,
-            message: "OK",
-            data: result
-        });
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -17,11 +14,8 @@ const update = async (req, res, next) => {
     try {
         const id = req.params.id;
         const result = await categoryService.updateCategory(id, req.body);
-        res.json({
-            status: 200,
-            message: "OK",
-            data: result
-        });
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -31,10 +25,8 @@ const categoryDelete = async (req, res, next) => {
     try {
         const id = req.params.id;
         await categoryService.deleteCategory(id);
-        res.json({
-            status: 200,
-            message: "OK",
-        });
+        req.message = "Successfully delete category";
+        next();
     } catch (e) {
         next(e);
     }
@@ -44,11 +36,8 @@ const getById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const result = await categoryService.getCategoryById(id);
-        res.json({
-            status: 200,
-            message: "OK",
-            data: result
-        });
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -57,11 +46,8 @@ const getById = async (req, res, next) => {
 const getAll = async (req, res, next) => {
     try {
         const result = await categoryService.getAllCategory();
-        res.json({
-            status: 200,
-            message: "OK",
-            data: result
-        });
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }

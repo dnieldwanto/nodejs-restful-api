@@ -1,12 +1,11 @@
 const express = require("express")
 const controller = require("../../../controller")
-const middleware = require("../../../middleware")
-const errorMiddleware = middleware.errorMiddleware.errorMiddleware
+const response = require("../../../response");
+const { genericResponse } = response.genericResponse
 const authController = controller.authController;
 
 const authRouter = express.Router();
-authRouter.post("/register", authController.register);
-authRouter.post("/login", authController.login);
-authRouter.use(errorMiddleware);
+authRouter.post("/register", authController.register, genericResponse);
+authRouter.post("/login", authController.login, genericResponse);
 
 module.exports = () => authRouter

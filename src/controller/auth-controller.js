@@ -3,11 +3,9 @@ const authService = require("../service/auth-service.js")
 const register = async (req, res, next) => {
     try {
         const result = await authService.registerUser(req.body);
-        res.json({
-            status: 200,
-            message: "Successfully register your account",
-            data: result
-        });
+        req.message = "Successfully register your account";
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -16,10 +14,9 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
     try {
         const result = await authService.loginUser(req.body);
-        res.json({
-            status: 200,
-            data: result
-        });
+        req.message = "Successfully Login";
+        req.data = result;
+        next();
     } catch (e) {
         next(e);
     }
@@ -29,10 +26,9 @@ const logout = async (req, res, next) => {
     try {
         const username = req.user.username;
         await authService.logoutUser(username);
-        res.json({
-            status: 200,
-            message: "Successfully logout"
-        });
+        req.message = "Successfully Logout";
+        req.data = {};
+        next();
     } catch (e) {
         next(e);
     }

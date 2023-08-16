@@ -11,12 +11,6 @@ dotenv.config();
 const registerUser = async (request) => {
     const user = validate(createUser, request);
 
-    // const findUser = await Users.findAll({ 
-    //     where: { 
-    //         username: user.username 
-    //     }
-    // });
-
     const findUser = await db.findOneByCondition(
         {
             username: user.username
