@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const { error } = require("cli");
 dotenv.config();
 
 const sendEmailVerification = (email, otpCode) => {
@@ -21,7 +20,7 @@ const sendEmailVerification = (email, otpCode) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            next(error)
+            next(err)
         } else {
             console.log("Email sent: " + info.response);
         }
