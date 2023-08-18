@@ -1,14 +1,16 @@
 const express = require("express");
 const response = require("../../../response");
 const { genericResponse } = response.genericResponse
+const middleware = require("../../../middleware")
+const { authentication, checkUserActive } = middleware.authMiddleware
 const controller = require("../../../controller")
 const contactController = controller.contactController;
 
 const contactRouter = express.Router();
-contactRouter.post("/users/", contactController.create, genericResponse);
-contactRouter.put("/:id/users/", contactController.update, genericResponse);
+contactRouter.post("/users/", authentication, checkUserActive, contactController.create, genericResponse);
+contactRouter.put("/:id/users/", authentication, checkUserActive, contactController.update, genericResponse);
 contactRouter.route("/")
-                .get(contactController.getById, genericResponse)
-                .delete(contactController.deleteContact, genericResponse)
+                .get(authentication, checkUserActive, contactController.getById, genericResponse)
+                .delete(authentication, checkUserActive, contactController.deleteContact, genericResponse)
 
 module.exports = () => contactRouter

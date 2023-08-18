@@ -7,5 +7,6 @@ const authController = controller.authController;
 const authRouter = express.Router();
 authRouter.post("/register", authController.register, genericResponse);
 authRouter.post("/login", authController.login, genericResponse);
+authRouter.put("/verification", authController.verification, genericResponse);
 
 module.exports = () => authRouter

@@ -11,6 +11,16 @@ const register = async (req, res, next) => {
     }
 }
 
+const verification = async (req, res, next) => {
+    try {
+        await authService.verificationUser(req.body);
+        req.message = "Verification Your Account Success";
+        next();
+    } catch (e) {
+        next(e);
+    }
+}
+
 const login = async (req, res, next) => {
     try {
         const result = await authService.loginUser(req.body);
@@ -37,5 +47,6 @@ const logout = async (req, res, next) => {
 module.exports = {
     register,
     login,
-    logout
+    logout,
+    verification
 }

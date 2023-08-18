@@ -1,4 +1,5 @@
 const db = require("../utilities/database")
+const { sendEmailVerification } = require("../utilities/mail");
 const { ResponseError } = require("../error/response-error.js");
 const { createUser, loginUserSchema } = require("../validation/auth-validation.js")
 const { validate } = require("../validation/validation.js")
@@ -24,13 +25,37 @@ const registerUser = async (request) => {
     }
 
     user.password = await bcrypt.hash(user.password, 10);
-    return await db.saveData({username: user.username, password: user.password}, "Users");
+    const otp = generateOtpCode(4);
+    const userCreate = await db.saveData({username: user.username, password: user.password, roleId: 2, otpCode: otp}, "Users");
+
+    const contacts = await db.saveData({firstName: user.firstName, lastName: user.lastName, email: user.email, phone: null, username: userCreate.username}, "Contacts")
+    sendEmailVerification(contacts.email, otp);
+    return userCreate;
+}
+
+const verificationUser = async (request) => {
+    const user = await db.findOneByCondition(
+        {
+            username: request.username
+        }, 
+        "Users", 
+        ["username", "createdAt", "updatedAt", "otpCode"]
+        );
+
+    if (!user) {
+        throw new ResponseError(404, "User not found")
+    }
+
+    if (user.otpCode !== request.otpCode) {
+        throw new ResponseError(400, "Invalid Code Verification")
+    }
+    return await db.updateData({username: request.username}, {isActive: 1}, "Users");
 }
 
 const loginUser = async (request) => {
     const validLogin = validate(loginUserSchema, request);
 
-    const dataUser = await db.findOneByCondition({username: validLogin.username}, "Users", ["username", "password", "createdAt", "updatedAt"])
+    const dataUser = await db.findOneByCondition({username: validLogin.username}, "Users", ["username", "password", "roleId", "createdAt", "updatedAt"])
     if (!dataUser) {
         throw new ResponseError(401, "Username atau password salah");
     }
@@ -41,8 +66,8 @@ const loginUser = async (request) => {
     }
 
     const token = jwt.sign({
-        when: Date.now(),
-        username: dataUser.username
+        username: dataUser.username,
+        roles: dataUser.roleId === 1 ? "Admin" : "Customer"
     }, process.env.SECRET_KEY, {
         algorithm: process.env.JWT_ALGO,
         expiresIn: process.env.JWT_EXPIRED
@@ -71,8 +96,15 @@ const logoutUser = async (username) => {
     return await db.updateData({username: user.username}, {token: user.token}, "Users");
 }
 
+const generateOtpCode = (length) => {
+    const min = Math.pow(10, (length - 1));
+    const max = Math.pow(10, (length));
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
 module.exports = {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    verificationUser
 }
