@@ -364,35 +364,7 @@
                         "bearerAuth": []
                     }
                 ]
-            }
-        },
-        "/users/all/": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get All User",
-                "operationId": "UserAll",
-                "parameters": [],
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/users/current/": {
+            },
             "put": {
                 "tags": [
                     "Users"
@@ -420,6 +392,32 @@
                     },
                     "required": true
                 },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/all/": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get All User",
+                "operationId": "UserAll",
+                "parameters": [],
                 "responses": {
                     "400": {
                         "description": "",
@@ -541,45 +539,6 @@
                     },
                     "required": true
                 },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/address/{id}/contacts": {
-            "get": {
-                "tags": [
-                    "Address"
-                ],
-                "summary": "Get Address User",
-                "operationId": "GetAddressUser",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
                 "responses": {
                     "400": {
                         "description": "",
@@ -779,6 +738,43 @@
                 ],
                 "summary": "Delete Address User",
                 "operationId": "DeleteAddressUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Get Address User",
+                "operationId": "GetAddressUser",
                 "parameters": [
                     {
                         "name": "id",
@@ -1443,7 +1439,7 @@
                 ]
             }
         },
-        "/orders/user": {
+        "/orders/users": {
             "post": {
                 "tags": [
                     "Orders"
