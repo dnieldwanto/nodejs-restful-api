@@ -10,20 +10,187 @@
     },
     "servers": [
         {
-            "url": "https://localhost:3000/api",
+            "url": "http://localhost:3000/api",
             "description": "Local Host",
             "variables": {}
         }
     ],
     "paths": {
-        "/api/register": {
+        "/auth/admin/register": {
             "post": {
                 "tags": [
-                    "Register"
+                    "Authentication"
+                ],
+                "summary": "Register Admin",
+                "operationId": "RegisterAdmin",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "enum": [
+                                "application/json"
+                            ],
+                            "type": "string",
+                            "example": "application/json"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "firstName",
+                                    "lastName",
+                                    "email",
+                                    "username",
+                                    "password"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "user"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user123@gmail.com"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "user1235"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "User1235@"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
                 ],
                 "summary": "Register User",
                 "operationId": "RegisterUser",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "enum": [
+                                "application/json"
+                            ],
+                            "type": "string",
+                            "example": "application/json"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "firstName",
+                                    "lastName",
+                                    "email",
+                                    "username",
+                                    "password"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "user"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user123@gmail.com"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "user1235"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "User1235@"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login User",
+                "operationId": "LoginUser",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "enum": [
+                                "application/json"
+                            ],
+                            "type": "string",
+                            "example": "application/json"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -37,11 +204,11 @@
                                 "properties": {
                                     "username": {
                                         "type": "string",
-                                        "example": "user123"
+                                        "example": "user1235"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "user123"
+                                        "example": "User1235@"
                                     }
                                 }
                             }
@@ -49,16 +216,1799 @@
                     },
                     "required": true
                 },
-                "response": {
+                "responses": {
                     "400": {
-                        "description": "Bad Request"
+                        "description": "",
+                        "headers":{}
                     },
                     "200": {
-                        "description": "OK"
+                        "description": "",
+                        "headers":{}
                     }
                 },
                 "deprecated": false
             }
+        },
+        "/auth/verification": {
+            "put": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verification User",
+                "operationId": "VerificationUser",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "enum": [
+                                "application/json"
+                            ],
+                            "type": "string",
+                            "example": "application/json"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "otpCode"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "user1235"
+                                    },
+                                    "otpCode": {
+                                        "type": "number",
+                                        "example": 1234
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/users/logout/": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Logout User",
+                "operationId": "LogoutUser",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]   
+            }
+        },
+        "/users/current": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get User Current",
+                "operationId": "UserCurrent",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete User Current",
+                "operationId": "DeleteUserCurrent",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/all/": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get All User",
+                "operationId": "UserAll",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/current/": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update User Current",
+                "operationId": "UpdateUserCurrent",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "example": "User1235@"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/contacts/": {
+            "get": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "Get Contact User",
+                "operationId": "GetContactUser",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "Delete Contact User",
+                "operationId": "DeleteContactUser",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/contacts/{id}/users/": {
+            "put": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "Update Contact User",
+                "operationId": "UpdateContactUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "firstName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "user"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user123@gmail.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "084674367264"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/address/{id}/contacts": {
+            "get": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Get Address User",
+                "operationId": "GetAddressUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/address/contacts/": {
+            "get": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Get All Address User",
+                "operationId": "GetAllAddressUser",
+                "parameters": [
+                    {
+                        "name": "contactId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Create Address User",
+                "operationId": "CreateAddressUser",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "country",
+                                    "postalCode"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "street": {
+                                        "type": "string",
+                                        "example": "Sudirman Street"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    },
+                                    "province": {
+                                        "type": "string",
+                                        "example": "DKI Jakarta"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Indonesia"
+                                    },
+                                    "postalCode": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/address/{id}/contacts/": {
+            "put": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Update Address User",
+                "operationId": "UpdateAddressUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "country",
+                                    "postalCode"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "street": {
+                                        "type": "string",
+                                        "example": "Sudirman Street"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    },
+                                    "province": {
+                                        "type": "string",
+                                        "example": "DKI Jakarta"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Indonesia"
+                                    },
+                                    "postalCode": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Delete Address User",
+                "operationId": "DeleteAddressUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/categories/": {
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Create Category",
+                "operationId": "CreateCategory",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "categoryName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "categoryName": {
+                                        "type": "string",
+                                        "example": "Mobile Phone"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "All Variant Mobile Phone"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get All Category",
+                "operationId": "GetAllCategory",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/categories/{id}": {
+            "put": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Update Category",
+                "operationId": "UpdateCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "categoryName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "categoryName": {
+                                        "type": "string",
+                                        "example": "Mobile Phone"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "All Variant Mobile Phone"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get Category By Id",
+                "operationId": "GetCategoryById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Delete Category By Id",
+                "operationId": "DeleteCategoryById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/suppliers": {
+            "post": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Create Suppliers",
+                "operationId": "CreateSuppliers",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "supplierName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "supplierName": {
+                                        "type": "string",
+                                        "example": "PT xxx"
+                                    },
+                                    "supplierAddress": {
+                                        "type": "string",
+                                        "example": "xxx street"
+                                    },
+                                    "supplierPhone": {
+                                        "type": "string",
+                                        "example": "08xxxx"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Get All Suppliers",
+                "operationId": "GetAllSuppliers",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/suppliers/{id}": {
+            "put": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Update Suppliers",
+                "operationId": "UpdateSuppliers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "supplierName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "supplierName": {
+                                        "type": "string",
+                                        "example": "PT xxx"
+                                    },
+                                    "supplierAddress": {
+                                        "type": "string",
+                                        "example": "xxx street"
+                                    },
+                                    "supplierPhone": {
+                                        "type": "string",
+                                        "example": "08xxxx"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Get Suppliers By Id",
+                "operationId": "GetSuppliersById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Delete Suppliers By Id",
+                "operationId": "DeleteSuppliersById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create Products",
+                "operationId": "CreateProducts",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "productName",
+                                    "categoryId",
+                                    "supplierId"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "productName": {
+                                        "type": "string",
+                                        "example": "xxx"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 10000
+                                    },
+                                    "stock": {
+                                        "type": "number",
+                                        "example": 50
+                                    },
+                                    "categoryId": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "supplierId": {
+                                        "type": "number",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get All Products",
+                "operationId": "GetAllProducts",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Products",
+                "operationId": "UpdateProducts",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "productName",
+                                    "categoryId",
+                                    "supplierId"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "productName": {
+                                        "type": "string",
+                                        "example": "xxx"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 10000
+                                    },
+                                    "stock": {
+                                        "type": "number",
+                                        "example": 50
+                                    },
+                                    "categoryId": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "supplierId": {
+                                        "type": "number",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Products By Id",
+                "operationId": "GetProductsById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/user": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create Orders",
+                "operationId": "CreateOrders",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "productId"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "quantity": {
+                                        "type": "number",
+                                        "example": 5
+                                    },
+                                    "productId": {
+                                        "type": "number",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}": {
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update Orders",
+                "operationId": "UpdateOrders",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
-    }
+    },
+    "components": {
+        "schemas": {
+            "RegisterAdmin": {
+                "title": "Register Admin",
+                "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                      "firstName": "xxx",
+                      "lastName": "xxx",
+                      "email": "xxx@gmail.com",
+                      "username": "xxxx1234",
+                      "password": "Xxxx123@"
+                    },
+                    "message": "Successfully Create Account"
+                }
+            },
+            "RegisterUser": {
+                "title": "Register User",
+                "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                      "firstName": "xxx",
+                      "lastName": "xxx",
+                      "email": "xxx@gmail.com",
+                      "username": "xxxx1234",
+                      "password": "Xxxx123@"
+                    },
+                    "message": "Successfully Create Account"
+                }
+            },
+            "Login User": {
+                "title": "Login User",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                      "username": "xxxx1234",
+                      "createdAt": "date",
+                      "updatedAt": "date"
+                    },
+                    "message": "OK"
+                }
+            },
+            "VerificationUser": {
+                "title": "Verification User",
+                "required": [
+                    "username",
+                    "otpCode"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "otpCode": {
+                        "type": "number"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                      "username": "xxxx1234",
+                      "otpCode": 1234
+                    },
+                    "message": "Successfully Verification Your Account"
+                }
+            },
+            "LogoutUser": {
+                "title": "Logout User",
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {},
+                    "message": "Successfully Logout Account"
+                }
+            },
+            "GetUserCurrent": {
+                "title": "Get User Current",
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "username": "xxxx1234",
+                        "createdAt": "date",
+                        "updatedAt": "date"
+                    },
+                    "message": "OK"
+                }
+            },
+            "GetAllUser": {
+                "title": "Get All User",
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": [
+                        {
+                            "username": "xxxx1234",
+                            "createdAt": "date",
+                            "updatedAt": "date"
+                        },
+                        {
+                            "username": "xxxx1234",
+                            "createdAt": "date",
+                            "updatedAt": "date"
+                        }
+                    ],
+                    "message": "OK"
+                }
+            },
+            "UpdateUser": {
+                "title": "Update User",
+                "required": [
+                    "token",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "username": "xxxx1234",
+                        "createdAt": "date",
+                        "updatedAt": "data"
+                    },
+                    "message": "OK"
+                }
+            },
+            "DeleteUser": {
+                "title": "Delete User",
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {},
+                    "message": "OK"
+                }
+            },
+            "Contact": {
+                "title": "Contact",
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "firstName": "xxx",
+                        "lastName": "xxx",
+                        "email": "xxx@gmail.com",
+                        "phone": "08xxxx",
+                        "username": "xxx"
+                    },
+                    "message": "OK"
+                }
+            },
+            "Address": {
+                "title": "Address",
+                "required": [
+                    "token",
+                    "street",
+                    "city",
+                    "province",
+                    "country",
+                    "postalCode"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "street": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "province": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    },
+                    "postalCode": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "street": "xxx",
+                        "city": "xxx",
+                        "province": "xxx", 
+                        "country": "xxx",
+                        "postalCode": "xxx"
+                    },
+                    "message": "OK"
+                }
+            },
+            "Categories": {
+                "title": "Categories",
+                "required": [
+                    "token",
+                    "categoryName",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "categoryName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "categoryName": "xxx",
+                        "description": "xxx"
+                    },
+                    "message": "OK"
+                }
+            },
+            "Suppliers": {
+                "title": "Suppliers",
+                "required": [
+                    "token",
+                    "supplierName",
+                    "supplierAddress",
+                    "supplierPhone"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "supplierName": {
+                        "type": "string"
+                    },
+                    "supplierAddress": {
+                        "type": "string"
+                    },
+                    "supplierPhone": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "supplierName": "xxx",
+                        "supplierAddress": "xxx",
+                        "supplierPhone": "xxxx"
+                    },
+                    "message": "OK"
+                }
+            },
+            "Products": {
+                "title": "Products",
+                "required": [
+                    "token",
+                    "productName",
+                    "price",
+                    "stock",
+                    "categoryId",
+                    "supplierId"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "productName": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "stock": {
+                        "type": "number"
+                    },
+                    "categoryId": {
+                        "type": "number"
+                    },
+                    "supplierId": {
+                        "type": "number"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "productName": "xxx",
+                        "price": 10000,
+                        "stock": 50,
+                        "categoryId": 1,
+                        "supplierId": 1
+                    },
+                    "message": "OK"
+                }
+            },
+            "Orders": {
+                "title": "Orders",
+                "required": [
+                    "token",
+                    "orderNumber",
+                    "orderDate",
+                    "quantity",
+                    "total",
+                    "username",
+                    "productId",
+                    "statusOrder",
+                    "isActive"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "orderNumber": {
+                        "type": "string"
+                    },
+                    "orderDate": {
+                        "type": "date"
+                    },
+                    "quantity": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "productId": {
+                        "type": "number"
+                    },
+                    "statusOrder": {
+                        "type": "string"
+                    },
+                    "isActive": {
+                        "type": "number"
+                    }
+                },
+                "example": {
+                    "status": true,
+                    "data": {
+                        "orderNumber": "xxx",
+                        "orderDate": 10000,
+                        "quantity": 50,
+                        "total": 1,
+                        "username": 1,
+                        "productId": 1,
+                        "statusOrder": 1,
+                        "isActive": 1
+                    },
+                    "message": "OK"
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": []
 }

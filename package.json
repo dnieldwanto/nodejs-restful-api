@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "restful-api nodejs",
   "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danieldewan1906/nodejs-restful-api.git"
+  },
   "scripts": {
     "start": "nodemon src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"

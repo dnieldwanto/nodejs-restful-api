@@ -6,31 +6,42 @@ const { description, version } = require("../../package.json");
 
 const option = {
     definition: {
+        openapi: "3.0.0",
+        info: {
+            title: description,
+            version: version
+        },
         components: {
             securitySchemes: {
                 bearerAuth: {
                     type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT"
-                },
-                apiKeyAuth: {
-                    type: "apiKey",
                     in: "header",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
                     name: "Authorization"
                 }
             }
         },
         security: [
             {
-                apiKeyAuth: []
+                bearerAuth: [],
             },
+        ],
+        servers: [
             {
-                bearerAuth: []
+                url: "http://localhost:3000/api",
+                description: "Local Host",
+                variables: {}
             }
-        ]
+        ],
     },
 
-    apis: ["./src/route/**/*.js", "./src/service/*.js", "./src/controller/*.js", "../../models/*.js"]
+    apis: [
+        "./src/route/**/*.js", 
+        "./src/service/*.js", 
+        "./src/controller/*.js", 
+        "./src/db/**/*.js"
+    ]
 };
 
 const openapiSpecification = swaggerJsDoc(option);
@@ -38,7 +49,8 @@ const openapiSpecification = swaggerJsDoc(option);
 const options = {
     swaggerOptions: {
         url: "/api-docs/swagger.json"
-    }
+    },
+    explorer: true
 };
 
 const swaggerRoute = express.Router();
