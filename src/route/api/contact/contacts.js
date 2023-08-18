@@ -7,7 +7,6 @@ const controller = require("../../../controller")
 const contactController = controller.contactController;
 
 const contactRouter = express.Router();
-contactRouter.post("/users/", authentication, checkUserActive, contactController.create, genericResponse);
 contactRouter.put("/:id/users/", authentication, checkUserActive, contactController.update, genericResponse);
 contactRouter.route("/")
                 .get(authentication, checkUserActive, contactController.getById, genericResponse)

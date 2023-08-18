@@ -22,7 +22,6 @@ const Users = sequelize.define(
         roleId: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            defaultValue: 1,
             references : {
                 model: {
                     tableName: "user-roles"

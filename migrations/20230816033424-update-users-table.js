@@ -3,11 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addColumn('users', "isActive", 
+    await queryInterface.addColumn('users', "roleId", 
     {
       type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 1,
       references : {
         model: {
           tableName: "user-roles"

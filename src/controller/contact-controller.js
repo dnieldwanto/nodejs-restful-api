@@ -1,16 +1,5 @@
 const contactService = require("../service/contact-service.js")
 
-const create = async (req, res, next) => {
-    try {
-        const username = req.user.username;
-        const result = await contactService.createContact(username, req.body);
-        req.data = result;
-        next();
-    } catch (e) {
-        next(e);
-    }
-}
-
 const update = async (req, res, next) => {
     try {
         const username = req.user.username;
@@ -46,7 +35,6 @@ const deleteContact = async(req, res, next) => {
 }
 
 module.exports= {
-    create,
     update,
     getById,
     deleteContact

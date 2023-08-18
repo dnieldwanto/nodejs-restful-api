@@ -4,22 +4,6 @@ const { validate } = require("../validation/validation.js")
 const db = require("../utilities/database")
 const { ResponseError } = require("../error/response-error.js")
 
-const createContact = async (username, request) => {
-    username = validate(getByUsernameSchema, username);
-    const contact = validate(createUpdateContactSchema, request);
-    const user = await getUserByUsername(username);
-    
-    const contactCreate = {
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        email: contact.email,
-        phone: contact.phone,
-        username: user.username
-    }
-    const create = await db.saveData(contactCreate, "Contacts");
-    return create;
-}
-
 const updateContact = async (username, id, request) => {
     username = validate(getByUsernameSchema, username);
     id = validate(getIdSchema, id);
@@ -70,7 +54,6 @@ const findByIdAndUsername = async (id, username) => {
 }
 
 module.exports = {
-    createContact,
     updateContact,
     getContactById,
     deleteContact
