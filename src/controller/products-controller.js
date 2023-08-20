@@ -42,9 +42,21 @@ const getAllProduct = async (req, res, next) => {
     }
 }
 
+const esTextSearch = async (req, res, next) => {
+    try {
+        const productName = req.query.productName
+        const result = await productService.esTextSearch(productName);
+        req.data = result;
+        next();
+    } catch (e) {
+        next(e);
+    }
+}
+
 module.exports = {
     create,
     update,
     getProductById,
-    getAllProduct
+    getAllProduct,
+    esTextSearch
 }

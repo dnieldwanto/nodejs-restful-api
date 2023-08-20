@@ -1,6 +1,7 @@
 const { createUpdateProductSchema, idSchema } = require("../validation/products-validation.js")
 const { validate } = require("../validation/validation.js")
 const db = require("../utilities/database");
+const elasticsearch = require("../utilities/elasticsearch")
 const { ResponseError } = require("../error/response-error.js");
 
 const createProduct = async (request) => {
@@ -63,9 +64,43 @@ const getAll = async() => {
     return await db.findAllData({}, "Products", [["id", "asc"]], ["productName", "price", "stock"], ["categories", "suppliers"])
 }
 
+const esTextSearch = async (productName) => {
+    let whereTo = "products";
+
+    let productsQuery = {
+        query_string: {
+            query: `${productName}`,
+            fields: ["productName"]
+        }
+    }
+
+    let productSortArray = [{price: {order: "desc"}}];
+
+    const productData = await elasticsearch.searchInIndex(
+        whereTo,
+        productsQuery,
+        0,
+        10,
+        [
+            "productName",
+            "price"
+        ],
+        productSortArray
+    );
+
+    const result = productData.hits.hits
+
+    if (result.length === 0) {
+        throw new ResponseError(404, "Data Not Found");
+    }
+
+    return result;
+}
+
 module.exports = {
     createProduct,
     updateProduct,
     getById,
-    getAll
+    getAll,
+    esTextSearch
 }
