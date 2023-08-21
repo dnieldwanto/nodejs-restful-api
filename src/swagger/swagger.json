@@ -1439,6 +1439,45 @@
                 ]
             }
         },
+        "/products/search": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Search Products",
+                "operationId": "SearchProducts",
+                "parameters": [
+                    {
+                        "name": "productName",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "string",
+                          "example": "xxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/orders/users": {
             "post": {
                 "tags": [
