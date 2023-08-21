@@ -1,4 +1,3 @@
-console.log("ENVIRONMENT  ::: ", process.env.NODE_ENV);
 const express = require("express");
 const cors = require("cors")
 const helmet = require("helmet")
