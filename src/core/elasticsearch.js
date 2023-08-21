@@ -1,9 +1,15 @@
-const dotenv = require("dotenv");
-const elasticsearch = require('elasticsearch');
-dotenv.config();
+const config = require("config");
+const elastic = config.get("development").database.elastic;
+const elasticsearch = require('@elastic/elasticsearch');
 
 let esClient = new elasticsearch.Client({
-    host: process.env.ELASTIC_HOST
+    cloud: {
+        id: elastic.cloudId
+    },
+    auth: {
+        username: elastic.cloudUsername,
+        password: elastic.cloudPassword
+    }
 });
 
 module.exports = {

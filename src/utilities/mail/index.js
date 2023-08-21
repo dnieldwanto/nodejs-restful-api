@@ -1,18 +1,18 @@
 const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
-dotenv.config();
+const config = require("config")
+const mail = config.get("development").mailVerification
 
 const sendEmailVerification = (email, otpCode) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_PASS
+            user: mail.email,
+            pass: mail.pass
         }
     });
     
     const mailOptions = {
-        from: process.env.GMAIL_USER,
+        from: mail.email,
         to: email,
         subject: "Account Verification",
         text: `Verification your account with code OTP : ${otpCode}`

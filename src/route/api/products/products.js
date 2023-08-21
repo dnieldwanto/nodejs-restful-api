@@ -7,7 +7,7 @@ const controller = require("../../../controller")
 const productController = controller.productController;
 
 const productRouter = express.Router();
-productRouter.get("/testing/", authentication, checkUserActive, productController.esTextSearch, genericResponse)
+productRouter.get("/search", authentication, checkUserActive, productController.esTextSearch, genericResponse)
 productRouter.route("/")
         .post(authentication, checkUserActive, checkRole, productController.create, genericResponse)
         .get(authentication, checkUserActive, productController.getAllProduct, genericResponse)

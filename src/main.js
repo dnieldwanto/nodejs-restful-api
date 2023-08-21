@@ -1,7 +1,8 @@
 const { web } = require("./web.js");
 const { socketConnection } = require("./utilities/socket")
+const config = require("config")
+const port = config.get("development").app.port;
 
-const port = process.env.PORT || 3000
 const server = web.listen(port, () => {
     console.log(`Application running on port ${port}`);
 });

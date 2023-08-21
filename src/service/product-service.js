@@ -83,7 +83,8 @@ const esTextSearch = async (productName) => {
         10,
         [
             "productName",
-            "price"
+            "price",
+            "stock"
         ],
         productSortArray
     );
@@ -94,7 +95,13 @@ const esTextSearch = async (productName) => {
         throw new ResponseError(404, "Data Not Found");
     }
 
-    return result;
+    let response = []
+
+    for (data of result) {
+        let product = data._source;
+        response.push(product);
+    }
+    return response;
 }
 
 module.exports = {

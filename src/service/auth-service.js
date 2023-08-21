@@ -5,9 +5,9 @@ const { createUser, loginUserSchema } = require("../validation/auth-validation.j
 const { validate } = require("../validation/validation.js")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+const config = require("config");
+const app = config.get("development").app;
 const { getByUsernameSchema } = require("../validation/users-validation.js");
-dotenv.config();
 
 const registerUser = async (request) => {
     const user = validate(createUser, request);
@@ -90,9 +90,9 @@ const loginUser = async (request) => {
     const token = jwt.sign({
         username: dataUser.username,
         roles: dataUser.roleId === 1 ? "Admin" : "Customer"
-    }, process.env.SECRET_KEY, {
-        algorithm: process.env.JWT_ALGO,
-        expiresIn: process.env.JWT_EXPIRED
+    }, app.secretKey, {
+        algorithm: app.jwtAlgo,
+        expiresIn: app.jwtExpired
     });
 
     dataUser.token = token;
