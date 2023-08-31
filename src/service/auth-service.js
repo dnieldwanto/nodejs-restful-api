@@ -33,28 +33,6 @@ const registerUser = async (request) => {
     return userCreate;
 }
 
-const registerAdmin = async (request) => {
-    const admin = validate(createUser, request);
-
-    const findAdmin = await db.findOneByCondition(
-        {
-            username: admin.username
-        }, 
-        "Users", 
-        ["username", "createdAt", "updatedAt"]
-        );
-
-    if (findAdmin) {
-        throw new ResponseError(400, "Username already exists")
-    }
-
-    admin.password = await bcrypt.hash(admin.password, 10);
-    const adminCreate = await db.saveData({username: admin.username, password: admin.password, roleId: 1, isActive: 1}, "Users");
-
-    await db.saveData({firstName: admin.firstName, lastName: admin.lastName, email: admin.email, phone: null, username: adminCreate.username}, "Contacts")
-    return adminCreate;
-}
-
 const verificationUser = async (request) => {
     const user = await db.findOneByCondition(
         {
@@ -126,7 +104,6 @@ const generateOtpCode = (length) => {
 
 module.exports = {
     registerUser,
-    registerAdmin,
     loginUser,
     logoutUser,
     verificationUser

@@ -9,17 +9,6 @@ const register = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
-
-const registerAdmin = async (req, res, next) => {
-    try {
-        const result = await authService.registerAdmin(req.body);
-        req.message = "Successfully register your account";
-        req.data = result;
-        next();
-    } catch (e) {
-        next(e);
-    }
 } 
 
 const verification = async (req, res, next) => {
@@ -57,7 +46,6 @@ const logout = async (req, res, next) => {
 
 module.exports = {
     register,
-    registerAdmin,
     login,
     logout,
     verification

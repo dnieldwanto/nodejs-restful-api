@@ -16,62 +16,57 @@
         }
     ],
     "paths": {
-        "/auth/admin/register": {
+        "/admin/users/all": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get All User",
+                "operationId": "UserAll",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/categories": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Admin"
                 ],
-                "summary": "Register Admin",
-                "operationId": "RegisterAdmin",
-                "parameters": [
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "schema": {
-                            "enum": [
-                                "application/json"
-                            ],
-                            "type": "string",
-                            "example": "application/json"
-                        }
-                    }
-                ],
+                "summary": "Create Category",
+                "operationId": "CreateCategory",
+                "parameters": [],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "encoding": {},
                             "schema": {
                                 "required": [
-                                    "firstName",
-                                    "lastName",
-                                    "email",
-                                    "username",
-                                    "password"
+                                    "categoryName"
                                 ],
                                 "type": "object",
                                 "properties": {
-                                    "firstName": {
+                                    "categoryName": {
                                         "type": "string",
-                                        "example": "user"
+                                        "example": "Mobile Phone"
                                     },
-                                    "lastName": {
+                                    "description": {
                                         "type": "string",
-                                        "example": "test"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": "user123@gmail.com"
-                                    },
-                                    "username": {
-                                        "type": "string",
-                                        "example": "user1235"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "User1235@"
+                                        "example": "All Variant Mobile Phone"
                                     }
                                 }
                             }
@@ -89,7 +84,450 @@
                         "headers":{}
                     }
                 },
-                "deprecated": false
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/categories/{id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update Category",
+                "operationId": "UpdateCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "categoryName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "categoryName": {
+                                        "type": "string",
+                                        "example": "Mobile Phone"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "All Variant Mobile Phone"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete Category By Id",
+                "operationId": "DeleteCategoryById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/suppliers": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create Suppliers",
+                "operationId": "CreateSuppliers",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "supplierName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "supplierName": {
+                                        "type": "string",
+                                        "example": "PT xxx"
+                                    },
+                                    "supplierAddress": {
+                                        "type": "string",
+                                        "example": "xxx street"
+                                    },
+                                    "supplierPhone": {
+                                        "type": "string",
+                                        "example": "08xxxx"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/suppliers/{id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update Suppliers",
+                "operationId": "UpdateSuppliers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "supplierName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "supplierName": {
+                                        "type": "string",
+                                        "example": "PT xxx"
+                                    },
+                                    "supplierAddress": {
+                                        "type": "string",
+                                        "example": "xxx street"
+                                    },
+                                    "supplierPhone": {
+                                        "type": "string",
+                                        "example": "08xxxx"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete Suppliers By Id",
+                "operationId": "DeleteSuppliersById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/products": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create Products",
+                "operationId": "CreateProducts",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "productName",
+                                    "categoryId",
+                                    "supplierId"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "productName": {
+                                        "type": "string",
+                                        "example": "xxx"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 10000
+                                    },
+                                    "stock": {
+                                        "type": "number",
+                                        "example": 50
+                                    },
+                                    "categoryId": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "supplierId": {
+                                        "type": "number",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/products/{id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update Products",
+                "operationId": "UpdateProducts",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "productName",
+                                    "categoryId",
+                                    "supplierId"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "productName": {
+                                        "type": "string",
+                                        "example": "xxx"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 10000
+                                    },
+                                    "stock": {
+                                        "type": "number",
+                                        "example": 50
+                                    },
+                                    "categoryId": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "supplierId": {
+                                        "type": "number",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/orders/{id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update Orders",
+                "operationId": "UpdateOrders",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/auth/register": {
@@ -392,32 +830,6 @@
                     },
                     "required": true
                 },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/users/all/": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get All User",
-                "operationId": "UserAll",
-                "parameters": [],
                 "responses": {
                     "400": {
                         "description": "",
@@ -808,54 +1220,6 @@
             }
         },
         "/categories/": {
-            "post": {
-                "tags": [
-                    "Category"
-                ],
-                "summary": "Create Category",
-                "operationId": "CreateCategory",
-                "parameters": [],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "encoding": {},
-                            "schema": {
-                                "required": [
-                                    "categoryName"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "categoryName": {
-                                        "type": "string",
-                                        "example": "Mobile Phone"
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "All Variant Mobile Phone"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "get": {
                 "tags": [
                     "Category"
@@ -882,67 +1246,6 @@
             }
         },
         "/categories/{id}": {
-            "put": {
-                "tags": [
-                    "Category"
-                ],
-                "summary": "Update Category",
-                "operationId": "UpdateCategory",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "encoding": {},
-                            "schema": {
-                                "required": [
-                                    "categoryName"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "categoryName": {
-                                        "type": "string",
-                                        "example": "Mobile Phone"
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "All Variant Mobile Phone"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "get": {
                 "tags": [
                     "Category"
@@ -979,98 +1282,9 @@
                         "bearerAuth": []
                     }
                 ]
-            },
-            "delete": {
-                "tags": [
-                    "Category"
-                ],
-                "summary": "Delete Category By Id",
-                "operationId": "DeleteCategoryById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
             }
         },
         "/suppliers": {
-            "post": {
-                "tags": [
-                    "Suppliers"
-                ],
-                "summary": "Create Suppliers",
-                "operationId": "CreateSuppliers",
-                "parameters": [],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "encoding": {},
-                            "schema": {
-                                "required": [
-                                    "supplierName"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "supplierName": {
-                                        "type": "string",
-                                        "example": "PT xxx"
-                                    },
-                                    "supplierAddress": {
-                                        "type": "string",
-                                        "example": "xxx street"
-                                    },
-                                    "supplierPhone": {
-                                        "type": "string",
-                                        "example": "08xxxx"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "get": {
                 "tags": [
                     "Suppliers"
@@ -1097,71 +1311,6 @@
             }
         },
         "/suppliers/{id}": {
-            "put": {
-                "tags": [
-                    "Suppliers"
-                ],
-                "summary": "Update Suppliers",
-                "operationId": "UpdateSuppliers",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "encoding": {},
-                            "schema": {
-                                "required": [
-                                    "supplierName"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "supplierName": {
-                                        "type": "string",
-                                        "example": "PT xxx"
-                                    },
-                                    "supplierAddress": {
-                                        "type": "string",
-                                        "example": "xxx street"
-                                    },
-                                    "supplierPhone": {
-                                        "type": "string",
-                                        "example": "08xxxx"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "get": {
                 "tags": [
                     "Suppliers"
@@ -1198,108 +1347,9 @@
                         "bearerAuth": []
                     }
                 ]
-            },
-            "delete": {
-                "tags": [
-                    "Suppliers"
-                ],
-                "summary": "Delete Suppliers By Id",
-                "operationId": "DeleteSuppliersById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
             }
         },
         "/products": {
-            "post": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Create Products",
-                "operationId": "CreateProducts",
-                "parameters": [],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "encoding": {},
-                            "schema": {
-                                "required": [
-                                    "productName",
-                                    "categoryId",
-                                    "supplierId"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "productName": {
-                                        "type": "string",
-                                        "example": "xxx"
-                                    },
-                                    "price": {
-                                        "type": "number",
-                                        "example": 10000
-                                    },
-                                    "stock": {
-                                        "type": "number",
-                                        "example": 50
-                                    },
-                                    "categoryId": {
-                                        "type": "number",
-                                        "example": 1
-                                    },
-                                    "supplierId": {
-                                        "type": "number",
-                                        "example": 1
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "get": {
                 "tags": [
                     "Products"
@@ -1326,81 +1376,6 @@
             }
         },
         "/products/{id}": {
-            "put": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Update Products",
-                "operationId": "UpdateProducts",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "encoding": {},
-                            "schema": {
-                                "required": [
-                                    "productName",
-                                    "categoryId",
-                                    "supplierId"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "productName": {
-                                        "type": "string",
-                                        "example": "xxx"
-                                    },
-                                    "price": {
-                                        "type": "number",
-                                        "example": 10000
-                                    },
-                                    "stock": {
-                                        "type": "number",
-                                        "example": 50
-                                    },
-                                    "categoryId": {
-                                        "type": "number",
-                                        "example": 1
-                                    },
-                                    "supplierId": {
-                                        "type": "number",
-                                        "example": 1
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "get": {
                 "tags": [
                     "Products"
@@ -1511,45 +1486,6 @@
                     },
                     "required": true
                 },
-                "responses": {
-                    "400": {
-                        "description": "",
-                        "headers":{}
-                    },
-                    "200": {
-                        "description": "",
-                        "headers":{}
-                    }
-                },
-                "deprecated": false,
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/orders/{id}": {
-            "put": {
-                "tags": [
-                    "Orders"
-                ],
-                "summary": "Update Orders",
-                "operationId": "UpdateOrders",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "",
-                        "required": true,
-                        "style": "simple",
-                        "explode": true,
-                        "schema": {
-                          "type": "number",
-                          "example": 1
-                        }
-                    }
-                ],
                 "responses": {
                     "400": {
                         "description": "",

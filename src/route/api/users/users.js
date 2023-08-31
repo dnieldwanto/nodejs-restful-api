@@ -9,7 +9,6 @@ const userController = controller.userController
 
 const userRouter = express.Router();
 userRouter.delete("/logout/", authentication, checkUserActive, authController.logout, genericResponse);
-userRouter.get("/all/", authentication, checkUserActive, userController.getAllUsers, genericResponse);
 userRouter.route("/current")
         .get(authentication, checkUserActive, userController.getUserByUsername, genericResponse)
         .put(authentication, checkUserActive, userController.userUpdate, genericResponse)
