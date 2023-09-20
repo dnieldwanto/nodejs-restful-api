@@ -23,6 +23,13 @@ const development = {
             cloudId: process.env.ELASTIC_CLOUD,
             cloudUsername: process.env.ELASTIC_USERNAME,
             cloudPassword: process.env.ELASTIC_PASSWORD
+        },
+        mongo: {
+            uri: process.env.MONGO_URI,
+            options: {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }
         }
     },
     mailVerification: {

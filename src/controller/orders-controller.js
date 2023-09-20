@@ -14,15 +14,27 @@ const create = async (req, res, next) => {
 const done = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const result = await orderService.orderDone(id);
-        req.data = result;
+        await orderService.orderDone(id);
+        req.message = "Order done successfully"
         next();
     } catch (e) {
         next(e);
     }
 }
 
+const allOrders = async(req, res, next) => {
+    try {
+        const id = req.params.id;
+        const result = await orderService.getAllOrders(id)
+        req.data = result;
+        next();
+    } catch (e) {
+        next(e)
+    }
+}
+
 module.exports = {
     create,
-    done
+    done,
+    allOrders
 }

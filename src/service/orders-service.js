@@ -2,6 +2,7 @@ const { createOrderSchema, getIdOrderSchema } = require("../validation/orders-va
 const { getByUsernameSchema } = require("../validation/users-validation.js");
 const { validate } = require("../validation/validation.js");
 const db = require("../utilities/database")
+const Orders = require("../db/models/mongodb/orders")
 const { ResponseError } = require("../error/response-error.js");
 const { STATUS_ORDER } = require("../enum/status-order.js");
 
@@ -24,7 +25,7 @@ const createOrder = async (username, request) => {
     }
 
     const totalPrice = requestOrder.quantity * product.price;
-    const orderCreate = {
+    const orderCreate = new Orders({
         orderNumber: generateOrderNumber(),
         orderDate: new Date(),
         quantity: requestOrder.quantity,
@@ -33,8 +34,9 @@ const createOrder = async (username, request) => {
         isActive: 1,
         username: user.username,
         productId: requestOrder.productId
-    }
-    await db.saveData(orderCreate, "Orders");
+    })
+    // await db.saveData(orderCreate, "Orders");
+    await orderCreate.save()
     const payload = {
         stock: product.stock - requestOrder.quantity
     }
@@ -45,17 +47,27 @@ const createOrder = async (username, request) => {
 const orderDone = async (id) => {
     id = validate(getIdOrderSchema, id);
 
-    const order = await db.findByPrimaryKey(id, "Orders", ["id", "orderNumber", "orderDate", "quantity", "total", "username", "productId", "statusOrder", "isActive"])
+    // const order = await db.findByPrimaryKey(id, "Orders", ["id", "orderNumber", "orderDate", "quantity", "total", "username", "productId", "statusOrder", "isActive"])
+    const order = Orders.findOne({
+        _id: id
+    })
     if (order === null) {
-        throw new ResponseError(404, "Order not Found")
+        throw new ResponseError(400, "Order Already Done")
     }
 
     const payload = {
         statusOrder: STATUS_ORDER.DONE,
         isActive: 0
     }
-    await db.updateData({id: id}, payload, "Orders");
-    return order
+    await order.updateOne({}, {
+        $set: payload
+    }).exec()
+    // await db.updateData({id: id}, payload, "Orders");
+}
+
+const getAllOrders = async(id) => {
+    const allOrders = Orders.findOne({_id: id}).select("orderNumber orderDate quantity total statusOrder")
+    return allOrders
 }
 
 const generateOrderNumber = () => {
@@ -66,5 +78,6 @@ const generateOrderNumber = () => {
 
 module.exports = {
     createOrder,
-    orderDone
+    orderDone,
+    getAllOrders
 }

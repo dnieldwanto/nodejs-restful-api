@@ -5,7 +5,7 @@ const createOrderSchema = Joi.object({
     productId: Joi.number().required()
 });
 
-const getIdOrderSchema = Joi.number().required();
+const getIdOrderSchema = Joi.string().required();
 
 module.exports = {
     createOrderSchema,
