@@ -1,6 +1,8 @@
 const mongoose = require("mongoose")
 const config = require("config").get("development").database.mongo
 
+mongoose.Promise = global.Promise
+
 mongoose.connection.on("connected", () => {
     console.log("Connected to DB");
 })

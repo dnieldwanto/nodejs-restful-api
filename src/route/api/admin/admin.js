@@ -21,6 +21,6 @@ adminRouter.delete("/suppliers/:id", authentication, checkRole, supplierControll
 adminRouter.post("/products", authentication, checkRole, productController.create, genericResponse);
 adminRouter.put("/products/:id", authentication, checkRole, productController.update, genericResponse);
 adminRouter.put("/orders/:id", authentication, checkRole, orderController.done, genericResponse);
-adminRouter.get("/orders/:id/", authentication, checkRole, orderController.allOrders, genericResponse);
+adminRouter.get("/orders", authentication, checkRole, orderController.allOrders, genericResponse);
 
 module.exports = () => adminRouter;

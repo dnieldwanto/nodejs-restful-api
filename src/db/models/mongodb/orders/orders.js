@@ -3,6 +3,10 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const OrderSchema = new Schema({
+    _id: {
+        type: Number,
+        required: true
+    },
     orderNumber: {
         type: String,
         required: true
@@ -35,17 +39,8 @@ const OrderSchema = new Schema({
         type: Number,
         required: true
     }
-})
-
-OrderSchema.method({
-    transform() {
-        const transformed = {};
-        const fields = ["orderNumber", "orderDate", "quantity", "total", "statusOrder", "isActive"]
-        fields.forEach(field => {
-            transformed[field] =this[field]
-        })
-        return transformed;
-    }
+}, {
+    versionKey: false
 })
 
 const Orders = mongoose.model("orders", OrderSchema)

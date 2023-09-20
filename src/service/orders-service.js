@@ -5,6 +5,7 @@ const db = require("../utilities/database")
 const Orders = require("../db/models/mongodb/orders")
 const { ResponseError } = require("../error/response-error.js");
 const { STATUS_ORDER } = require("../enum/status-order.js");
+const Counters = require("../db/models/mongodb/counters/counters.js");
 
 const createOrder = async (username, request) => {
     username = validate(getByUsernameSchema, username);
@@ -26,6 +27,7 @@ const createOrder = async (username, request) => {
 
     const totalPrice = requestOrder.quantity * product.price;
     const orderCreate = new Orders({
+        _id: await getNextSequenceNumber("ordersId"),
         orderNumber: generateOrderNumber(),
         orderDate: new Date(),
         quantity: requestOrder.quantity,
@@ -48,25 +50,36 @@ const orderDone = async (id) => {
     id = validate(getIdOrderSchema, id);
 
     // const order = await db.findByPrimaryKey(id, "Orders", ["id", "orderNumber", "orderDate", "quantity", "total", "username", "productId", "statusOrder", "isActive"])
-    const order = Orders.findOne({
+    let order = await Orders.findOne({
         _id: id
     })
+
     if (order === null) {
+        throw new ResponseError(404, "Order Not Found")
+    }
+
+    if (order.statusOrder === "DONE") {
         throw new ResponseError(400, "Order Already Done")
     }
 
-    const payload = {
-        statusOrder: STATUS_ORDER.DONE,
-        isActive: 0
-    }
-    await order.updateOne({}, {
-        $set: payload
-    }).exec()
+    let updateOrder = await Orders.updateOne({
+        _id: id
+    }, {
+        $set: {
+            statusOrder: STATUS_ORDER.DONE,
+            isActive: 0
+        }
+    })
+
+    updateOrder = await Orders.findOne({
+        _id: id
+    }).select("orderNumber orderDate quantity total statusOrder")
+    return updateOrder
     // await db.updateData({id: id}, payload, "Orders");
 }
 
-const getAllOrders = async(id) => {
-    const allOrders = Orders.findOne({_id: id}).select("orderNumber orderDate quantity total statusOrder")
+const getAllOrders = async () => {
+    const allOrders = await Orders.find({})
     return allOrders
 }
 
@@ -74,6 +87,21 @@ const generateOrderNumber = () => {
     const date = new Date().getTime().toString();
     const result = `ORDER - ${date}`
     return result;
+}
+
+const getNextSequenceNumber = async (sequenceName) => {
+    let data = await Counters.findOneAndUpdate({
+        _id: sequenceName
+    }, {
+        $inc: {
+            sequence_value: 1
+        }
+    })
+
+    data = await Counters.findOne({
+        _id: sequenceName
+    }).select("sequence_value")
+    return data.sequence_value
 }
 
 module.exports = {

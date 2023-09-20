@@ -10,15 +10,9 @@ const CountersSchema = new Schema({
         type: Number,
         default: 0
     }
+}, {
+    versionKey: false
 })
 
-CountersSchema.pre("save", async function save(next) {
-    try {
-        return next()
-    } catch (e) {
-        return next(e)
-    }
-})
-
-const Counters = mongoose.model("counters", CountersSchema)
+const Counters = mongoose.model("counter", CountersSchema)
 module.exports = Counters

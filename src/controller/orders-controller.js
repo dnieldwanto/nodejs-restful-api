@@ -14,7 +14,8 @@ const create = async (req, res, next) => {
 const done = async (req, res, next) => {
     try {
         const id = req.params.id;
-        await orderService.orderDone(id);
+        const result = await orderService.orderDone(id);
+        req.data = result;
         req.message = "Order done successfully"
         next();
     } catch (e) {
@@ -24,8 +25,7 @@ const done = async (req, res, next) => {
 
 const allOrders = async(req, res, next) => {
     try {
-        const id = req.params.id;
-        const result = await orderService.getAllOrders(id)
+        const result = await orderService.getAllOrders()
         req.data = result;
         next();
     } catch (e) {
