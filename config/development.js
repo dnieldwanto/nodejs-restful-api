@@ -20,9 +20,10 @@ const development = {
             dialect: process.env.DB_DIALECT
         },
         elastic: {
-            cloudId: process.env.ELASTIC_CLOUD,
-            cloudUsername: process.env.ELASTIC_USERNAME,
-            cloudPassword: process.env.ELASTIC_PASSWORD
+            // cloudId: process.env.ELASTIC_CLOUD,
+            // cloudUsername: process.env.ELASTIC_USERNAME,
+            // cloudPassword: process.env.ELASTIC_PASSWORD
+            node: process.env.NODE_ELASTIC
         },
         mongo: {
             uri: process.env.MONGO_URI,

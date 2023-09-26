@@ -64,13 +64,13 @@ const getAll = async() => {
     return await db.findAllData({}, "Products", [["id", "asc"]], ["productName", "price", "stock"], ["categories", "suppliers"])
 }
 
-const esTextSearch = async (productName) => {
+const esTextSearch = async (name) => {
     let whereTo = "products";
 
     let productsQuery = {
         query_string: {
-            query: `${productName}`,
-            fields: ["productName"]
+            query: `${name}`,
+            fields: ["name"]
         }
     }
 
@@ -82,9 +82,8 @@ const esTextSearch = async (productName) => {
         0,
         10,
         [
-            "productName",
-            "price",
-            "stock"
+            "name",
+            "price"
         ],
         productSortArray
     );
