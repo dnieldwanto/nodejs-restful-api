@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  app:
+    container_name: nodejs-restful-api
+    image: nodejs-restful-api:0.0.1
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - nodejs-restful-postgresql
+    environment:
+      DATABASE_URL: jdbc:postgresql://nodejs-restful-postgresql:5432/nodejs-restful-api
+    ports:
+      - 3000:3000
+  nodejs-restful-postgresql:
+    container_name: nodejs-restful-postgresql
+    image: postgres:15
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nodejs-restful-api

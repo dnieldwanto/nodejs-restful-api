@@ -53,7 +53,7 @@ const updateProduct = async (id, request) => {
 
 const getById = async(id) => {
     id = validate(idSchema, id);
-    const product = await db.findOneByCondition({id: id}, "Products", ["productName", "price", "stock"], ["orders"]);
+    const product = await db.findOneByCondition({id: id}, "Products", ["productName", "price", "stock"]);
     if (product === null) {
         throw new ResponseError(404, "Product Not Found");
     }
@@ -74,7 +74,13 @@ const esTextSearch = async (name) => {
         }
     }
 
-    let productSortArray = [{price: {order: "desc"}}];
+    let productSortArray = [
+        {
+            price: {
+                order: "desc"
+            }
+        }
+    ];
 
     const productData = await elasticsearch.searchInIndex(
         whereTo,

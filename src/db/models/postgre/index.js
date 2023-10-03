@@ -4,7 +4,6 @@ const Address = require("./address")
 const Categories = require("./categories")
 const Suppliers = require("./suppliers")
 const Products = require("./products")
-const Orders = require("./orders")
 
 module.exports = {
   ...Users,
@@ -12,6 +11,5 @@ module.exports = {
   ...Address,
   ...Categories,
   ...Suppliers,
-  ...Products,
-  ...Orders
+  ...Products
 }

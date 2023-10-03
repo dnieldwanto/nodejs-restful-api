@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 const getByUsername = async (username) => {
     username = validate(getByUsernameSchema, username);
-    const users = await db.findOneByCondition({username: username}, "Users", ["username", "createdAt", "updatedAt"], ["contacts", "orders"])
+    const users = await db.findOneByCondition({username: username}, "Users", ["username", "createdAt", "updatedAt"], ["contacts"])
     if (users == null) {
         throw new ResponseError(404, "Users Not Found");
     }
@@ -15,7 +15,7 @@ const getByUsername = async (username) => {
 }
 
 const getAllUser = async () => {
-    const user = await db.findAllData({}, "Users", [["username", "asc"]], ["username", "createdAt", "updatedAt"], ["contacts, orders"]);
+    const user = await db.findAllData({}, "Users", [["username", "asc"]], ["username", "createdAt", "updatedAt"], ["contacts"]);
     return user;
 }
 
