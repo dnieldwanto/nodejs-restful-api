@@ -1,5 +1,6 @@
 const { createOrderSchema, getIdOrderSchema } = require("../validation/orders-validation.js");
 const { getByUsernameSchema } = require("../validation/users-validation.js");
+const { idSchema } = require("../validation/cart-validation.js")
 const { validate } = require("../validation/validation.js");
 const db = require("../utilities/database")
 const Orders = require("../db/models/mongodb/orders")
@@ -7,16 +8,17 @@ const { ResponseError } = require("../error/response-error.js");
 const { STATUS_ORDER } = require("../enum/status-order.js");
 const Counters = require("../db/models/mongodb/counters/counters.js");
 
-const createOrder = async (username, request) => {
+const createOrder = async (username, idCart, request) => {
     username = validate(getByUsernameSchema, username);
+    idCart = validate(idSchema, idCart);
     const requestOrder = validate(createOrderSchema, request);
 
-    const user = await db.findByPrimaryKey(username, "Users", ["username"]);
-    if (user === null) {
-        throw new ResponseError(404, "User Not Found");
+    const cart = await db.findOneByCondition({id: idCart, username: username}, "Carts", ["id", "productId", "username", "quantity", "totalPayment"])
+    if (cart === null) {
+        throw new ResponseError(404, "Cart Not Found");
     }
 
-    const product = await db.findByPrimaryKey(requestOrder.productId, "Products", ["productName", "price", "stock"]);
+    const product = await db.findByPrimaryKey(cart.productId, "Products", ["id", "productName", "price", "stock"]);
     if (product === null) {
         throw new ResponseError(404, "Product Not Found");
     }
@@ -25,24 +27,51 @@ const createOrder = async (username, request) => {
         throw new ResponseError(400, "Stock not Enough")
     }
 
-    const totalPrice = requestOrder.quantity * product.price;
+    let totalPriceWithShipCostAndDiscount = 0;
+    if (requestOrder.discountVoucher !== null) {
+        const vouchers = await db.findOneByCondition({voucherCode: requestOrder.discountVoucher}, "Vouchers", ["id", "voucherCode", "discountVoucher"])
+        if (!vouchers) {
+            throw new ResponseError(404, "Voucher Not Found. Please enter correctly the voucher code.");
+        }
+        const totalWithShipCost = (product.price * requestOrder.quantity) + requestOrder.shipCost;
+        const totalWithDiscount = (vouchers.discountVoucher / 100) * (product.price * requestOrder.quantity);
+        totalPriceWithShipCostAndDiscount = totalWithShipCost - totalWithDiscount;
+    } else {
+        totalPriceWithShipCostAndDiscount = (product.price * requestOrder.quantity) + requestOrder.shipCost;
+    }
+    
     const orderCreate = new Orders({
         _id: await getNextSequenceNumber("ordersId"),
         orderNumber: generateOrderNumber(),
-        orderDate: new Date(),
+        orderDate: new Date().toISOString(),
         quantity: requestOrder.quantity,
-        total: totalPrice,
+        totalPrice: product.price * requestOrder.quantity,
+        typePayment: requestOrder.typePayment,
+        bankName: requestOrder.bankName,
+        shipCost: requestOrder.shipCost,
+        discountVoucher: requestOrder.discountVoucher,
+        totalPayment: totalPriceWithShipCostAndDiscount,
         statusOrder: STATUS_ORDER.DELIVERY,
         isActive: 1,
-        username: user.username,
-        productId: requestOrder.productId
+        username: cart.username,
+        productId: product.id
     })
     // await db.saveData(orderCreate, "Orders");
     await orderCreate.save()
+    if (requestOrder.quantity === cart.quantity) {
+        await db.deleteData({id: cart.id}, "Carts")
+    } else {
+        const newQty = cart.quantity - requestOrder.quantity
+        const data = {
+            quantity: newQty,
+            totalPayment: newQty * product.price
+        }
+        await db.updateData({id: cart.id}, data, "Carts");
+    }
     const payload = {
         stock: product.stock - requestOrder.quantity
     }
-    await db.updateData({id: requestOrder.productId}, payload, "Products")
+    await db.updateData({id: product.id}, payload, "Products")
     return orderCreate
 }
 

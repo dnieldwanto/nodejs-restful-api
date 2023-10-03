@@ -10,6 +10,7 @@ const supplierController = controller.supplierController;
 const productController = controller.productController;
 const orderController = controller.orderController;
 const cartController = controller.cartController;
+const voucherController = controller.voucherController;
 
 const adminRouter = express.Router();
 adminRouter.get("/users/all", authentication, checkRole, userController.getAllUsers, genericResponse);
@@ -24,5 +25,6 @@ adminRouter.put("/products/:id", authentication, checkRole, productController.up
 adminRouter.put("/orders/:id", authentication, checkRole, orderController.done, genericResponse);
 adminRouter.get("/orders", authentication, checkRole, orderController.allOrders, genericResponse);
 adminRouter.get("/cart", authentication, checkRole, cartController.allCarts, genericResponse);
+adminRouter.post("/vouchers", authentication, checkRole, voucherController.createVoucher, genericResponse)
 
 module.exports = () => adminRouter;

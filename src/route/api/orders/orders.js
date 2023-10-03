@@ -7,6 +7,6 @@ const controller = require("../../../controller")
 const orderController = controller.orderController;
 
 const orderRouter = express.Router();
-orderRouter.post("/users", authentication, checkUserActive, orderController.create, genericResponse)
+orderRouter.post("/checkout/:id_cart", authentication, checkUserActive, orderController.create, genericResponse)
 
 module.exports = () => orderRouter

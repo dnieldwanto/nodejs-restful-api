@@ -1,8 +1,11 @@
 const Joi = require("joi");
 
 const createOrderSchema = Joi.object({
-    quantity: Joi.number().default(0).optional(),
-    productId: Joi.number().required()
+    typePayment: Joi.string().required(),
+    bankName: Joi.string().optional().allow(null),
+    shipCost: Joi.number().required(),
+    discountVoucher: Joi.string().optional().allow(null).allow(""),
+    quantity: Joi.number().required()
 });
 
 const getIdOrderSchema = Joi.string().required();

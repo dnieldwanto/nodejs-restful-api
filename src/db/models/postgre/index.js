@@ -5,6 +5,7 @@ const Categories = require("./categories")
 const Suppliers = require("./suppliers")
 const Products = require("./products")
 const Carts = require("./carts")
+const Vouchers = require("./vouchers")
 
 module.exports = {
   ...Users,
@@ -13,5 +14,6 @@ module.exports = {
   ...Categories,
   ...Suppliers,
   ...Products,
-  ...Carts
+  ...Carts,
+  ...Vouchers
 }

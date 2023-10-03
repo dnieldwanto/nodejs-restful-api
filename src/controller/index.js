@@ -7,6 +7,7 @@ const supplierController = require("./supplier-controller")
 const productController = require("./products-controller")
 const orderController = require("./orders-controller")
 const cartController = require("./carts-controller")
+const voucherController = require("./voucher-controller")
 
 module.exports = {
     authController,
@@ -17,5 +18,6 @@ module.exports = {
     supplierController,
     productController,
     orderController,
-    cartController
+    cartController,
+    voucherController
 }

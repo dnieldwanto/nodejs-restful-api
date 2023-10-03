@@ -530,6 +530,83 @@
                 ]
             }
         },
+        "/admin/cart": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get All Cart",
+                "operationId": "GetAllCart",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admin/vouchers": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create Voucher Discount",
+                "operationId": "CreateVoucherDiscount",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "voucherCode",
+                                    "discountVoucher"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "voucherCode": {
+                                        "type": "string",
+                                        "example": "string"
+                                    },
+                                    "discountVoucher": {
+                                        "type": "number",
+                                        "example": 10
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/auth/register": {
             "post": {
                 "tags": [
@@ -1453,13 +1530,114 @@
                 ]
             }
         },
-        "/orders/users": {
+        "/orders/checkout/{id_cart}": {
             "post": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Create Orders",
                 "operationId": "CreateOrders",
+                "parameters": [
+                    {
+                        "name": "id_cart",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "encoding": {},
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "typePayment",
+                                    "shipCost"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "typePayment": {
+                                        "type": "string",
+                                        "example": "string"
+                                    },
+                                    "bankName": {
+                                        "type": "string",
+                                        "example": "string"
+                                    },
+                                    "shipCost": {
+                                        "type": "number",
+                                        "example": 1000
+                                    },
+                                    "discountVoucher": {
+                                        "type": "string",
+                                        "example": "string"
+                                    },
+                                    "quantity": {
+                                        "type": "number",
+                                        "example": 5
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart/": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Get Cart By User",
+                "operationId": "GetCartByUser",
+                "parameters": [],
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Add To Cart",
+                "operationId": "AddToCart",
                 "parameters": [],
                 "requestBody": {
                     "content": {
@@ -1486,6 +1664,45 @@
                     },
                     "required": true
                 },
+                "responses": {
+                    "400": {
+                        "description": "",
+                        "headers":{}
+                    },
+                    "200": {
+                        "description": "",
+                        "headers":{}
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart/{id}": {
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Delete Cart",
+                "operationId": "DeleteCart",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "style": "simple",
+                        "explode": true,
+                        "schema": {
+                          "type": "number",
+                          "example": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "400": {
                         "description": "",

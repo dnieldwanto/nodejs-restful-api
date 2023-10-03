@@ -3,7 +3,8 @@ const orderService = require("../service/orders-service.js")
 const create = async (req, res, next) => {
     try {
         const username = req.user.username;
-        const result = await orderService.createOrder(username, req.body);
+        const idCart = req.params.id_cart;
+        const result = await orderService.createOrder(username, idCart, req.body);
         req.data = result;
         next();
     } catch (e) {

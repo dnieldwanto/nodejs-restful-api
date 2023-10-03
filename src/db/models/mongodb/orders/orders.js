@@ -20,7 +20,25 @@ const OrderSchema = new Schema({
         type: Number,
         default: 0
     },
-    total: {
+    totalPrice: {
+        type: Number,
+        default: 0
+    },
+    typePayment: {
+        type: String,
+        required: true
+    },
+    bankName: {
+        type: String
+    },
+    shipCost: {
+        type: Number,
+        required: true
+    },
+    discountVoucher: {
+        type: String
+    },
+    totalPayment: {
         type: Number,
         default: 0
     },
