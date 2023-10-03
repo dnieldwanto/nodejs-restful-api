@@ -9,6 +9,7 @@ const categoryController = controller.categoryController;
 const supplierController = controller.supplierController;
 const productController = controller.productController;
 const orderController = controller.orderController;
+const cartController = controller.cartController;
 
 const adminRouter = express.Router();
 adminRouter.get("/users/all", authentication, checkRole, userController.getAllUsers, genericResponse);
@@ -22,5 +23,6 @@ adminRouter.post("/products", authentication, checkRole, productController.creat
 adminRouter.put("/products/:id", authentication, checkRole, productController.update, genericResponse);
 adminRouter.put("/orders/:id", authentication, checkRole, orderController.done, genericResponse);
 adminRouter.get("/orders", authentication, checkRole, orderController.allOrders, genericResponse);
+adminRouter.get("/cart", authentication, checkRole, cartController.allCarts, genericResponse);
 
 module.exports = () => adminRouter;
