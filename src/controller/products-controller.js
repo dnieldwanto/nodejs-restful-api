@@ -44,8 +44,8 @@ const getAllProduct = async (req, res, next) => {
 
 const esTextSearch = async (req, res, next) => {
     try {
-        const name = req.query.name
-        const result = await productService.esTextSearch(name);
+        const productName = req.query.productName
+        const result = await productService.esTextSearch(productName);
         req.data = result;
         next();
     } catch (e) {

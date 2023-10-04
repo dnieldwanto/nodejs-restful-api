@@ -7,6 +7,12 @@ const { ResponseError } = require("../error/response-error.js");
 const createProduct = async (request) => {
     const product = validate(createUpdateProductSchema, request);
 
+    const checkProduct = await db.findOneByCondition({productName: product.productName}, "Products")
+    if (checkProduct) {
+        // return await updateProduct(checkProduct.id, product);
+        throw new ResponseError(400, "Products already exist. If you want to update, please go to the update page. Thanks")
+    }
+
     const category = await db.findByPrimaryKey(product.categoryId, "Categories", ["categoryName", "description"]);
     if (category === null) {
         throw new ResponseError(404, "Category Not Found")
@@ -18,6 +24,8 @@ const createProduct = async (request) => {
     }
 
     await db.saveData(product, "Products");
+    const newProduct = await db.findOneByCondition({productName: product.productName}, "Products", ["id"])
+    elasticsearch.insertDoc("products", newProduct.id, product);
     return product;
 }
 
@@ -25,7 +33,7 @@ const updateProduct = async (id, request) => {
     id = validate(idSchema, id);
     const productRequest = validate(createUpdateProductSchema, request);
 
-    const product = await db.findByPrimaryKey(id, "Products", ["productName", "price", "stock", "categoryId", "supplierId"])
+    const product = await db.findByPrimaryKey(id, "Products", ["id", "productName", "price", "stock", "categoryId", "supplierId"])
     if (product === null) {
         throw new ResponseError(404, "Product Not Found");
     }
@@ -48,6 +56,7 @@ const updateProduct = async (id, request) => {
         supplierId: productRequest.supplierId
     }
     await db.updateData({id: id}, payload, "Products");
+    elasticsearch.updateDoc("products", product.id, payload);
     return payload;
 }
 
@@ -64,13 +73,13 @@ const getAll = async() => {
     return await db.findAllData({}, "Products", [["id", "asc"]], ["productName", "price", "stock"], ["categories", "suppliers"])
 }
 
-const esTextSearch = async (name) => {
+const esTextSearch = async (productName) => {
     let whereTo = "products";
 
     let productsQuery = {
         query_string: {
-            query: `${name}`,
-            fields: ["name"]
+            query: `${productName}`,
+            fields: ["productName"]
         }
     }
 
@@ -88,8 +97,9 @@ const esTextSearch = async (name) => {
         0,
         10,
         [
-            "name",
-            "price"
+            "productName",
+            "price",
+            "stock"
         ],
         productSortArray
     );
