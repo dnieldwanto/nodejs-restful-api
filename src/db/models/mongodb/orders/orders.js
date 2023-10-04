@@ -56,6 +56,10 @@ const OrderSchema = new Schema({
     productId: {
         type: Number,
         required: true
+    },
+    response_midtrans: {
+        type: String,
+        required: true
     }
 }, {
     versionKey: false

@@ -7,6 +7,7 @@ const Orders = require("../db/models/mongodb/orders")
 const { ResponseError } = require("../error/response-error.js");
 const { STATUS_ORDER } = require("../enum/status-order.js");
 const Counters = require("../db/models/mongodb/counters/counters.js");
+const { midtrans } = require("../core/midtrans.js");
 
 const createOrder = async (username, idCart, request) => {
     username = validate(getByUsernameSchema, username);
@@ -40,10 +41,28 @@ const createOrder = async (username, idCart, request) => {
         totalPriceWithShipCostAndDiscount = (product.price * requestOrder.quantity) + requestOrder.shipCost;
     }
     
-    const orderCreate = new Orders({
+    const parameter = {
+        payment_type: requestOrder.typePayment,
+        bank_transfer: {
+            bank: requestOrder.bankName
+        },
+        transaction_details: {
+            order_id: generateOrderNumber(),
+            gross_amount: totalPriceWithShipCostAndDiscount
+        },
+        custom_expiry: {
+            order_time: "2023-10-04 15:57:10 +0700",
+            expiry_duration: 60,
+            unit: "minute"
+        },
+        quantity: requestOrder.quantity,
+        username: cart.username,
+        product: product.productName
+    }
+    let orderCreate = new Orders({
         _id: await getNextSequenceNumber("ordersId"),
-        orderNumber: generateOrderNumber(),
-        orderDate: new Date().toISOString(),
+        orderNumber: parameter.transaction_details.order_id,
+        orderDate: parameter.custom_expiry.order_time,
         quantity: requestOrder.quantity,
         totalPrice: product.price * requestOrder.quantity,
         typePayment: requestOrder.typePayment,
@@ -56,8 +75,15 @@ const createOrder = async (username, idCart, request) => {
         username: cart.username,
         productId: product.id
     })
-    // await db.saveData(orderCreate, "Orders");
-    await orderCreate.save()
+
+    midtrans.charge(parameter).then(async (response) => {
+        orderCreate.response_midtrans = JSON.stringify(response)
+        await orderCreate.save()
+    })
+    .catch((e) => {
+        throw new ResponseError(500, `Error with ${e.message}`)
+    })
+
     if (requestOrder.quantity === cart.quantity) {
         await db.deleteData({id: cart.id}, "Carts")
     } else {
