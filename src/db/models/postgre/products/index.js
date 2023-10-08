@@ -1,3 +1,7 @@
 const Products = require("./Products");
+const ProductsImage = require("./ProductsImage");
 
-module.exports = {Products}
+module.exports = {
+    Products,
+    ProductsImage
+}

@@ -4,3 +4,6 @@ package-lock.json
 .vscode
 .env
 database-relations.vuerd.json
+*.jpg
+*.jpeg
+*.png

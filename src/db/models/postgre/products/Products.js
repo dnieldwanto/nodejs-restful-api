@@ -1,5 +1,6 @@
 const db = require("../../../../core");
 const Carts = require("../carts/Carts");
+const ProductsImage = require("./ProductsImage");
 const sequelize = db.sequelize.sequelize
 const Sequelize = db.sequelize.Sequelize
 
@@ -72,6 +73,11 @@ Products.associate = (models) => {
 Products.hasMany(Carts, {
     foreignKey: "productId",
     as: "carts"});
+
+Products.hasOne(ProductsImage, {
+    foreignKey: "product_id",
+    as: "productImage"
+})
 
 
 module.exports = Products

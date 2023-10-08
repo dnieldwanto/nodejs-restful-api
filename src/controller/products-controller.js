@@ -2,7 +2,8 @@ const productService = require("../service/product-service.js");
 
 const create = async (req, res, next) => {
     try {
-        const result = await productService.createProduct(req.body);
+        const file = req.file;
+        const result = await productService.createProduct(req.body, file);
         req.data = result;
         next();
     } catch (e) {
@@ -13,7 +14,8 @@ const create = async (req, res, next) => {
 const update = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const result = await productService.updateProduct(id, req.body);
+        const file = req.file;
+        const result = await productService.updateProduct(id, req.body, file);
         req.data = result;
         next();
     } catch (e) {

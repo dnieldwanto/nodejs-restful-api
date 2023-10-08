@@ -4,12 +4,11 @@ const db = require("../utilities/database");
 const elasticsearch = require("../utilities/elasticsearch")
 const { ResponseError } = require("../error/response-error.js");
 
-const createProduct = async (request) => {
+const createProduct = async (request, file) => {
     const product = validate(createUpdateProductSchema, request);
 
     const checkProduct = await db.findOneByCondition({productName: product.productName}, "Products")
     if (checkProduct) {
-        // return await updateProduct(checkProduct.id, product);
         throw new ResponseError(400, "Products already exist. If you want to update, please go to the update page. Thanks")
     }
 
@@ -26,10 +25,44 @@ const createProduct = async (request) => {
     await db.saveData(product, "Products");
     const newProduct = await db.findOneByCondition({productName: product.productName}, "Products", ["id"])
     elasticsearch.insertDoc("products", newProduct.id, product);
-    return product;
+
+    if (file !== undefined) {
+        const splitFile = file.originalname.split(".")
+        const originalFilename = splitFile[0]
+        const extensionFilename = splitFile[1]
+        const splitPhysicalName = file.path.split("\\");
+        const physicalName = splitPhysicalName[1];
+        const physicalFilename = physicalName.split(".")[0];
+        const payload_image = {
+            product_id: newProduct.id,
+            original_filename: originalFilename,
+            physical_filename: physicalFilename,
+            extension_filename: "." + extensionFilename,
+            created_at: new Date(),
+            updated_at: new Date()
+        }
+        await db.saveData(payload_image, "ProductsImage")
+    }
+
+    const productImage = await db.findOneByCondition({product_id: newProduct.id}, "ProductsImage", ["physical_filename", "extension_filename"])
+    const response = {
+        productName: product.productName,
+        price: product.price,
+        stock: product.stock,
+        category: {
+            name: category.categoryName
+        },
+        supplier: {
+            supplierName: supplier.supplierName,
+            supplierAddress: supplier.supplierAddress,
+            supplierPhone: supplier.supplierPhone
+        },
+        image: productImage !== null ? productImage.physical_filename + "" + productImage.extension_filename : null
+    }
+    return response;
 }
 
-const updateProduct = async (id, request) => {
+const updateProduct = async (id, request, file) => {
     id = validate(idSchema, id);
     const productRequest = validate(createUpdateProductSchema, request);
 
@@ -57,7 +90,41 @@ const updateProduct = async (id, request) => {
     }
     await db.updateData({id: id}, payload, "Products");
     elasticsearch.updateDoc("products", product.id, payload);
-    return payload;
+
+    if (file !== undefined) {
+        const splitFile = file.originalname.split(".")
+        const originalFilename = splitFile[0]
+        const extensionFilename = splitFile[1]
+        const splitPhysicalName = file.path.split("\\");
+        const physicalName = splitPhysicalName[1];
+        const physicalFilename = physicalName.split(".")[0];
+        const payload_image = {
+            product_id: product.id,
+            original_filename: originalFilename,
+            physical_filename: physicalFilename,
+            extension_filename: "." + extensionFilename,
+            created_at: new Date(),
+            updated_at: new Date()
+        }
+        await db.saveData(payload_image, "ProductsImage")
+    }
+
+    const productImage = await db.findOneByCondition({product_id: product.id}, "ProductsImage", ["physical_filename", "extension_filename"])
+    const response = {
+        productName: product.productName,
+        price: product.price,
+        stock: product.stock,
+        category: {
+            name: category.categoryName
+        },
+        supplier: {
+            supplierName: supplier.supplierName,
+            supplierAddress: supplier.supplierAddress,
+            supplierPhone: supplier.supplierPhone
+        },
+        image: productImage !== null ? productImage.physical_filename + "" + productImage.extension_filename : null
+    }
+    return response;
 }
 
 const getById = async(id) => {
@@ -70,7 +137,29 @@ const getById = async(id) => {
 }
 
 const getAll = async() => {
-    return await db.findAllData({}, "Products", [["id", "asc"]], ["productName", "price", "stock"], ["categories", "suppliers"])
+    let response = [];
+    const products = await db.findAllData({}, "Products", [["id", "asc"]], ["id", "productName", "price", "stock", "categoryId", "supplierId"]);
+    for (let i = 0; i < products.length; i++) {
+        const category = await db.findByPrimaryKey(products[i].categoryId, "Categories", ["categoryName", "description"]);
+        const supplier = await db.findByPrimaryKey(products[i].supplierId, "Suppliers", ["supplierName", "supplierAddress", "supplierPhone"]);
+        const productImage = await db.findOneByCondition({product_id: products[i].id}, "ProductsImage", ["physical_filename", "extension_filename"])
+        const data = {
+            productName: products[i].productName,
+            price: products[i].price,
+            stock: products[i].stock,
+            category: {
+                categoryName: category.categoryName
+            },
+            supplier: {
+                supplierName: supplier.supplierName,
+                supplierAddress: supplier.supplierAddress,
+                supplierPhone: supplier.supplierPhone
+            },
+            image: productImage !== null ? "localhost:3000/image/" + productImage.physical_filename + "" + productImage.extension_filename : null
+        }
+        response.push(data)
+    }
+    return response
 }
 
 const esTextSearch = async (productName) => {
