@@ -20,12 +20,4 @@ This project uses open source projects to work properly:
     $ cd nodejs-restful-api
     $ npm install
 
-### Running the project
-
-[node.js]: http://www.nodejs.org
-[express.js]: http://www.expressjs.com
-[postgresql]: https://www.postgresql.org
-[mongodb]: https://www.mongodb.com
-[elasticsearch]: https://www.elastic.co
-
 ### Author: Daniel Dewanto
