@@ -9,3 +9,5 @@ const server = web.listen(port, () => {
     console.log(`Application running on port ${port}`);
 });
 socketConnection(server);
+
+console.log("test");
