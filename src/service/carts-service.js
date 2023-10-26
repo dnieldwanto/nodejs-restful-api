@@ -22,7 +22,32 @@ const getAllCartsByUsername = async (username) => {
         throw new ResponseError(404, "Carts Not Found")
     }
 
-    return carts;
+    let product = [];
+    let totalQuantity = 0;
+    let totalPayment = 0;
+
+    for (let cart of carts) {
+        const products = await db.findByPrimaryKey(cart.productId, "Products", ["productName", "price"]);
+        let data = {
+            productName: products.productName,
+            price: products.price,
+            quantity: cart.quantity,
+            payment: cart.totalPayment
+        }
+
+        totalQuantity += cart.quantity;
+        totalPayment += parseInt(cart.totalPayment);
+        product.push(data);
+    }
+
+    let response = {
+        username: users.username,
+        products: product,
+        quantity: totalQuantity,
+        totalPayment: totalPayment
+    }
+
+    return response;
 }
 
 const addToCart = async (request, username) => {
