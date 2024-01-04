@@ -12,6 +12,17 @@ const create = async (req, res, next) => {
     }
 }
 
+const orderDetails = async (req, res, next) => {
+    try {
+        const payload = req.body;
+        const result = await orderService.getOrderDetails(payload);
+        req.data = result;
+        next();
+    } catch (e) {
+        next(e);
+    }
+}
+
 const done = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -37,5 +48,6 @@ const allOrders = async(req, res, next) => {
 module.exports = {
     create,
     done,
-    allOrders
+    allOrders,
+    orderDetails
 }

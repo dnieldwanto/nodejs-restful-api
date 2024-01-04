@@ -8,5 +8,6 @@ const orderController = controller.orderController;
 
 const orderRouter = express.Router();
 orderRouter.post("/checkout/:id_cart", authentication, checkUserActive, orderController.create, genericResponse)
+orderRouter.post("/details", authentication, orderController.orderDetails, genericResponse);
 
 module.exports = () => orderRouter
