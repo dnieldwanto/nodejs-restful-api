@@ -8,9 +8,15 @@ const createOrderSchema = Joi.object({
     quantity: Joi.number().required()
 });
 
+const orderDetailsSchema = Joi.object({
+    orderNumber: Joi.string().required(),
+    username: Joi.string().required()
+})
+
 const getIdOrderSchema = Joi.string().required();
 
 module.exports = {
     createOrderSchema,
-    getIdOrderSchema
+    getIdOrderSchema,
+    orderDetailsSchema
 }

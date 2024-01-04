@@ -1,4 +1,4 @@
-const { createOrderSchema, getIdOrderSchema } = require("../validation/orders-validation.js");
+const { createOrderSchema, getIdOrderSchema, orderDetailsSchema } = require("../validation/orders-validation.js");
 const { getByUsernameSchema } = require("../validation/users-validation.js");
 const { idSchema } = require("../validation/cart-validation.js")
 const { validate } = require("../validation/validation.js");
@@ -104,6 +104,21 @@ const createOrder = async (username, idCart, request) => {
     return orderCreate
 }
 
+const getOrderDetails = async (payload) => {
+    const request = validate(orderDetailsSchema, payload);
+    
+    const order = await Orders.findOne({
+        username: request.username,
+        orderNumber: request.orderNumber
+    }).select("orderNumber orderDate quantity totalPrice typePayment shipCost totalPayment statusOrder");
+
+    if (order === null) {
+        throw new ResponseError(404, "Order not found")
+    }
+
+    return order;
+}
+
 const orderDone = async (id) => {
     id = validate(getIdOrderSchema, id);
 
@@ -165,5 +180,6 @@ const getNextSequenceNumber = async (sequenceName) => {
 module.exports = {
     createOrder,
     orderDone,
-    getAllOrders
+    getAllOrders,
+    getOrderDetails
 }
