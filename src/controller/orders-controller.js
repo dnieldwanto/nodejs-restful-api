@@ -16,7 +16,6 @@ const orderDetails = async (req, res, next) => {
     try {
         const payload = req.body;
         const result = await orderService.getOrderDetails(payload);
-        console.log(result);
         req.data = result;
         next();
     } catch (e) {

@@ -7,6 +7,5 @@ const { Connect } = require("./core/mongoose.js");
 const server = web.listen(port, () => {
   Connect();
   console.log(`Application running on port ${port}`);
-  console.log("testing");
 });
 socketConnection(server);
