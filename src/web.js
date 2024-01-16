@@ -20,7 +20,7 @@ web.use(express.json());
 web.use(route());
 web.use("/api-docs", swaggerRoute());
 web.use(errorMiddleware);
-console.log("TEST");
+console.log("HAI");
 
 module.exports = {
     web
