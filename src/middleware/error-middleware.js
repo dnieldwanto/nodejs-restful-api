@@ -17,10 +17,10 @@ const errorMiddleware = async (err, req, res, next) => {
             status: false,
             data: {},
             errors: err.message
-        })
+        });
     }
-}
+};
 
 module.exports = {
     errorMiddleware
-}
+};

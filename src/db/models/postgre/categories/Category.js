@@ -1,7 +1,7 @@
 const db = require("../../../../core");
 const { Products } = require("../products");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const Categories = sequelize.define(
     "Categories",
@@ -24,11 +24,11 @@ const Categories = sequelize.define(
         tableName: "categories",
         timestamps: false,
         hooks : {
-            afterCreate: (record, options) => {
-                delete record.dataValues.id
+            afterCreate: (record) => {
+                delete record.dataValues.id;
             },
-            afterSave: (record, options) => {
-                delete record.dataValues.id
+            afterSave: (record) => {
+                delete record.dataValues.id;
             }
         }
     }
@@ -39,4 +39,4 @@ Categories.hasMany(Products, {
     as: "products"});
 
 
-module.exports = Categories
+module.exports = Categories;

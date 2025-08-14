@@ -1,20 +1,20 @@
-const { createUpdateProductSchema, idSchema } = require("../validation/products-validation.js")
-const { validate } = require("../validation/validation.js")
+const { createUpdateProductSchema, idSchema } = require("../validation/products-validation.js");
+const { validate } = require("../validation/validation.js");
 const db = require("../utilities/database");
-const elasticsearch = require("../utilities/elasticsearch")
+const elasticsearch = require("../utilities/elasticsearch");
 const { ResponseError } = require("../error/response-error.js");
 
 const createProduct = async (request, file) => {
     const product = validate(createUpdateProductSchema, request);
 
-    const checkProduct = await db.findOneByCondition({productName: product.productName}, "Products")
+    const checkProduct = await db.findOneByCondition({productName: product.productName}, "Products");
     if (checkProduct) {
-        throw new ResponseError(400, "Products already exist. If you want to update, please go to the update page. Thanks")
+        throw new ResponseError(400, "Products already exist. If you want to update, please go to the update page. Thanks");
     }
 
     const category = await db.findByPrimaryKey(product.categoryId, "Categories", ["categoryName", "description"]);
     if (category === null) {
-        throw new ResponseError(404, "Category Not Found")
+        throw new ResponseError(404, "Category Not Found");
     }
 
     const supplier = await db.findByPrimaryKey(product.supplierId, "Suppliers", ["supplierName", "supplierAddress", "supplierPhone"]);
@@ -23,13 +23,13 @@ const createProduct = async (request, file) => {
     }
 
     await db.saveData(product, "Products");
-    const newProduct = await db.findOneByCondition({productName: product.productName}, "Products", ["id"])
+    const newProduct = await db.findOneByCondition({productName: product.productName}, "Products", ["id"]);
     elasticsearch.insertDoc("products", newProduct.id, product);
 
     if (file !== undefined) {
-        const splitFile = file.originalname.split(".")
-        const originalFilename = splitFile[0]
-        const extensionFilename = splitFile[1]
+        const splitFile = file.originalname.split(".");
+        const originalFilename = splitFile[0];
+        const extensionFilename = splitFile[1];
         const splitPhysicalName = file.path.split("\\");
         const physicalName = splitPhysicalName[1];
         const physicalFilename = physicalName.split(".")[0];
@@ -40,11 +40,11 @@ const createProduct = async (request, file) => {
             extension_filename: "." + extensionFilename,
             created_at: new Date(),
             updated_at: new Date()
-        }
-        await db.saveData(payload_image, "ProductsImage")
+        };
+        await db.saveData(payload_image, "ProductsImage");
     }
 
-    const productImage = await db.findOneByCondition({product_id: newProduct.id}, "ProductsImage", ["physical_filename", "extension_filename"])
+    const productImage = await db.findOneByCondition({product_id: newProduct.id}, "ProductsImage", ["physical_filename", "extension_filename"]);
     const response = {
         productName: product.productName,
         price: product.price,
@@ -58,22 +58,22 @@ const createProduct = async (request, file) => {
             supplierPhone: supplier.supplierPhone
         },
         image: productImage !== null ? productImage.physical_filename + "" + productImage.extension_filename : null
-    }
+    };
     return response;
-}
+};
 
 const updateProduct = async (id, request, file) => {
     id = validate(idSchema, id);
     const productRequest = validate(createUpdateProductSchema, request);
 
-    const product = await db.findByPrimaryKey(id, "Products", ["id", "productName", "price", "stock", "categoryId", "supplierId"])
+    const product = await db.findByPrimaryKey(id, "Products", ["id", "productName", "price", "stock", "categoryId", "supplierId"]);
     if (product === null) {
         throw new ResponseError(404, "Product Not Found");
     }
 
     const category = await db.findByPrimaryKey(product.categoryId, "Categories", ["categoryName", "description"]);
     if (category === null) {
-        throw new ResponseError(404, "Category Not Found")
+        throw new ResponseError(404, "Category Not Found");
     }
 
     const supplier = await db.findByPrimaryKey(product.supplierId, "Suppliers", ["supplierName", "supplierAddress", "supplierPhone"]);
@@ -87,14 +87,14 @@ const updateProduct = async (id, request, file) => {
         stock: productRequest.stock,
         categoryId: productRequest.categoryId,
         supplierId: productRequest.supplierId
-    }
+    };
     await db.updateData({id: id}, payload, "Products");
     elasticsearch.updateDoc("products", product.id, payload);
 
     if (file !== undefined) {
-        const splitFile = file.originalname.split(".")
-        const originalFilename = splitFile[0]
-        const extensionFilename = splitFile[1]
+        const splitFile = file.originalname.split(".");
+        const originalFilename = splitFile[0];
+        const extensionFilename = splitFile[1];
         const splitPhysicalName = file.path.split("\\");
         const physicalName = splitPhysicalName[1];
         const physicalFilename = physicalName.split(".")[0];
@@ -105,11 +105,11 @@ const updateProduct = async (id, request, file) => {
             extension_filename: "." + extensionFilename,
             created_at: new Date(),
             updated_at: new Date()
-        }
-        await db.saveData(payload_image, "ProductsImage")
+        };
+        await db.saveData(payload_image, "ProductsImage");
     }
 
-    const productImage = await db.findOneByCondition({product_id: product.id}, "ProductsImage", ["physical_filename", "extension_filename"])
+    const productImage = await db.findOneByCondition({product_id: product.id}, "ProductsImage", ["physical_filename", "extension_filename"]);
     const response = {
         productName: product.productName,
         price: product.price,
@@ -123,9 +123,9 @@ const updateProduct = async (id, request, file) => {
             supplierPhone: supplier.supplierPhone
         },
         image: productImage !== null ? productImage.physical_filename + "" + productImage.extension_filename : null
-    }
+    };
     return response;
-}
+};
 
 const getById = async(id) => {
     id = validate(idSchema, id);
@@ -134,7 +134,7 @@ const getById = async(id) => {
         throw new ResponseError(404, "Product Not Found");
     }
     return product;
-}
+};
 
 const getAll = async() => {
     let response = [];
@@ -142,7 +142,7 @@ const getAll = async() => {
     for (let i = 0; i < products.length; i++) {
         const category = await db.findByPrimaryKey(products[i].categoryId, "Categories", ["categoryName", "description"]);
         const supplier = await db.findByPrimaryKey(products[i].supplierId, "Suppliers", ["supplierName", "supplierAddress", "supplierPhone"]);
-        const productImage = await db.findOneByCondition({product_id: products[i].id}, "ProductsImage", ["physical_filename", "extension_filename"])
+        const productImage = await db.findOneByCondition({product_id: products[i].id}, "ProductsImage", ["physical_filename", "extension_filename"]);
         const data = {
             productName: products[i].productName,
             price: products[i].price,
@@ -156,11 +156,11 @@ const getAll = async() => {
                 supplierPhone: supplier.supplierPhone
             },
             image: productImage !== null ? "localhost:3000/image/" + productImage.physical_filename + "" + productImage.extension_filename : null
-        }
-        response.push(data)
+        };
+        response.push(data);
     }
-    return response
-}
+    return response;
+};
 
 const esTextSearch = async (productName) => {
     let whereTo = "products";
@@ -170,7 +170,7 @@ const esTextSearch = async (productName) => {
             query: `${productName}`,
             fields: ["productName"]
         }
-    }
+    };
 
     let productSortArray = [
         {
@@ -193,20 +193,20 @@ const esTextSearch = async (productName) => {
         productSortArray
     );
 
-    const result = productData.hits.hits
+    const result = productData.hits.hits;
 
     if (result.length === 0) {
         throw new ResponseError(404, "Data Not Found");
     }
 
-    let response = []
+    let response = [];
 
-    for (data of result) {
+    for (let data of result) {
         let product = data._source;
         response.push(product);
     }
     return response;
-}
+};
 
 module.exports = {
     createProduct,
@@ -214,4 +214,4 @@ module.exports = {
     getById,
     getAll,
     esTextSearch
-}
+};

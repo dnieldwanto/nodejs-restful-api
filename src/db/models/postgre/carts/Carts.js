@@ -1,6 +1,6 @@
 const db = require("../../../../core");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const Carts = sequelize.define(
     "carts",
@@ -52,11 +52,11 @@ const Carts = sequelize.define(
         tableName: "carts",
         timestamps: false,
         hooks : {
-            afterCreate: (record, options) => {
-                delete record.dataValues.id
+            afterCreate: (record) => {
+                delete record.dataValues.id;
             },
-            afterSave: (record, options) => {
-                delete record.dataValues.id
+            afterSave: (record) => {
+                delete record.dataValues.id;
             }
         }
     }
@@ -66,7 +66,7 @@ Carts.associate = (models) => {
     Carts.belongsTo(models.Products, {
         foreignKey: "productId",
         as: "products"
-    })
+    });
     Carts.belongsTo(models.Users, {
         foreignKey: "username",
         as: "users"
@@ -74,4 +74,4 @@ Carts.associate = (models) => {
 };
 
 
-module.exports = Carts
+module.exports = Carts;

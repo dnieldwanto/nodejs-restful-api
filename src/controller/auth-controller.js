@@ -1,4 +1,4 @@
-const authService = require("../service/auth-service.js")
+const authService = require("../service/auth-service.js");
 
 const register = async (req, res, next) => {
     try {
@@ -9,7 +9,7 @@ const register = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-} 
+};
 
 const verification = async (req, res, next) => {
     try {
@@ -19,7 +19,7 @@ const verification = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const login = async (req, res, next) => {
     try {
@@ -30,7 +30,7 @@ const login = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const logout = async (req, res, next) => {
     try {
@@ -42,11 +42,11 @@ const logout = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 module.exports = {
     register,
     login,
     logout,
     verification
-}
+};

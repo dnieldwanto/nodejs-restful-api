@@ -1,4 +1,4 @@
-const supplierService = require("../service/suppliers-service.js")
+const supplierService = require("../service/suppliers-service.js");
 
 const create = async (req, res, next) => {
     try {
@@ -8,7 +8,7 @@ const create = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const update = async (req, res, next) => {
     try {
@@ -19,7 +19,7 @@ const update = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const supplierDelete = async (req, res, next) => {
     try {
@@ -30,7 +30,7 @@ const supplierDelete = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const getById = async (req, res, next) => {
     try {
@@ -41,7 +41,7 @@ const getById = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const getAll = async(req, res, next) => {
     try {
@@ -51,7 +51,7 @@ const getAll = async(req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 module.exports = {
     create,
@@ -59,4 +59,4 @@ module.exports = {
     supplierDelete,
     getById,
     getAll
-}
+};

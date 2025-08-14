@@ -3,7 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('products', 
+    await queryInterface.createTable({
+      tableName: 'products',
+      schema: "nodejs-restful"
+    }, 
     { 
       id: {
         type: Sequelize.INTEGER,
@@ -28,7 +31,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "categories"
+            tableName: "categories",
+            schema: "nodejs-restful"
           },
           key: "id"
         }
@@ -38,17 +42,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "suppliers"
-          },
-          key: "id"
-        }
-      },
-      orderId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: "orders"
+            tableName: "suppliers",
+            schema: "nodejs-restful"
           },
           key: "id"
         }
@@ -57,6 +52,9 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('products');
+    await queryInterface.dropTable({
+      tableName: 'products',
+      schema: "nodejs-restful"
+    });
   }
 };

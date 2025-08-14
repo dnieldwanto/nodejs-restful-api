@@ -1,6 +1,6 @@
 const db = require("../../../../core");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const Vouchers = sequelize.define(
     "vouchers",
@@ -24,15 +24,15 @@ const Vouchers = sequelize.define(
         tableName: "vouchers",
         timestamps: false,
         hooks : {
-            afterCreate: (record, options) => {
-                delete record.dataValues.id
+            afterCreate: (record) => {
+                delete record.dataValues.id;
             },
-            afterSave: (record, options) => {
-                delete record.dataValues.id
+            afterSave: (record) => {
+                delete record.dataValues.id;
             }
         }
     }
 );
 
 
-module.exports = Vouchers
+module.exports = Vouchers;

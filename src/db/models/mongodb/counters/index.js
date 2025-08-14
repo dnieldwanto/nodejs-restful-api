@@ -1,3 +1,3 @@
-const Counters = require("./counters")
+const Counters = require("./counters");
 
-module.exports = Counters
+module.exports = Counters;

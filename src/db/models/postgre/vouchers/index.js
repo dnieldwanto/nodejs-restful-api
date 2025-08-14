@@ -1,3 +1,3 @@
 const Vouchers = require("./Vouchers");
 
-module.exports = {Vouchers}
+module.exports = {Vouchers};

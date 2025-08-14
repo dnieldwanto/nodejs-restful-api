@@ -1,4 +1,4 @@
-const orderService = require("../service/orders-service.js")
+const orderService = require("../service/orders-service.js");
 
 const create = async (req, res, next) => {
     try {
@@ -10,7 +10,7 @@ const create = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const orderDetails = async (req, res, next) => {
     try {
@@ -22,33 +22,33 @@ const orderDetails = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const done = async (req, res, next) => {
     try {
         const id = req.params.id;
         const result = await orderService.orderDone(id);
         req.data = result;
-        req.message = "Order done successfully"
+        req.message = "Order done successfully";
         next();
     } catch (e) {
         next(e);
     }
-}
+};
 
 const allOrders = async(req, res, next) => {
     try {
-        const result = await orderService.getAllOrders()
+        const result = await orderService.getAllOrders();
         req.data = result;
         next();
     } catch (e) {
-        next(e)
+        next(e);
     }
-}
+};
 
 module.exports = {
     create,
     done,
     allOrders,
     orderDetails
-}
+};

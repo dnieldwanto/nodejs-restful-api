@@ -1,7 +1,6 @@
-const _ = require("lodash");
 const {utils} = require("../core");
 
-const genericResponse = async (req, res, next) => {
+const genericResponse = async (req, res) => {
     if (!req.dummy) {
         const data = await utils.responseGenerator(req);
         res.send(data);
@@ -16,8 +15,8 @@ const genericResponse = async (req, res, next) => {
         res.send(data);
         res.end();
     }
-}
+};
 
 module.exports = {
     genericResponse
-}
+};

@@ -3,7 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('suppliers', 
+    await queryInterface.createTable({
+      tableName: 'suppliers',
+      schema: "nodejs-restful"
+    }, 
     { 
       id: {
         type: Sequelize.INTEGER,
@@ -25,6 +28,9 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('suppliers');
+    await queryInterface.dropTable({
+      tableName: 'suppliers',
+      schema: "nodejs-restful"
+    });
   }
 };

@@ -1,5 +1,5 @@
-const db = require("../utilities/database")
-const JWT = require("jsonwebtoken")
+const db = require("../utilities/database");
+const JWT = require("jsonwebtoken");
 
 const authentication = async (req, res, next) => {
     try {
@@ -7,7 +7,7 @@ const authentication = async (req, res, next) => {
         if (token && token.startsWith("Bearer ")) {
             const jwtToken = token.split(" ")[1];
             JWT.verify(jwtToken, process.env.SECRET_KEY);
-            const user = await db.findOneByCondition({token: jwtToken}, "Users", ["username", "roleId", "isActive"], ["contacts"])
+            const user = await db.findOneByCondition({token: jwtToken}, "Users", ["username", "roleId", "isActive"], ["contacts"]);
             if (!user) {
                 res.json({
                     status: 401,
@@ -31,7 +31,7 @@ const authentication = async (req, res, next) => {
             }).end();
         }
     }
-}
+};
 
 const checkUserActive = async (req, res, next) => {
     const user = req.user;
@@ -43,7 +43,7 @@ const checkUserActive = async (req, res, next) => {
             message: "Your account is not active. Verification Your Account First."
         }).end();
     }
-}
+};
 
 const checkRole = async (req, res, next) => {
     const user = req.user;
@@ -55,10 +55,10 @@ const checkRole = async (req, res, next) => {
             message: "You don't have permission"
         }).end();
     }
-}
+};
 
 module.exports = {
     authentication,
     checkRole,
     checkUserActive
-}
+};

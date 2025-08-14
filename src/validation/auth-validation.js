@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const regex = require("./regex")
+const regex = require("./regex");
 
 const createUser = Joi.object({
     firstName: Joi.string().max(100).required(),
@@ -16,9 +16,9 @@ const createUser = Joi.object({
 const loginUserSchema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required()
-})
+});
 
 module.exports = {
     createUser,
     loginUserSchema
-}
+};

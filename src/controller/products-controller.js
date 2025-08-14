@@ -9,7 +9,7 @@ const create = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const update = async (req, res, next) => {
     try {
@@ -21,7 +21,7 @@ const update = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const getProductById = async (req, res, next) => {
     try {
@@ -32,7 +32,7 @@ const getProductById = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const getAllProduct = async (req, res, next) => {
     try {
@@ -42,18 +42,18 @@ const getAllProduct = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const esTextSearch = async (req, res, next) => {
     try {
-        const productName = req.query.productName
+        const productName = req.query.productName;
         const result = await productService.esTextSearch(productName);
         req.data = result;
         next();
     } catch (e) {
         next(e);
     }
-}
+};
 
 module.exports = {
     create,
@@ -61,4 +61,4 @@ module.exports = {
     getProductById,
     getAllProduct,
     esTextSearch
-}
+};

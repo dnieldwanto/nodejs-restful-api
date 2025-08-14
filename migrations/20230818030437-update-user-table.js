@@ -3,7 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addColumn('users', "isActive", 
+    await queryInterface.addColumn({
+      tableName: 'users',
+      schema: "nodejs-restful"
+    }, "isActive", 
     {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -13,6 +16,9 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.addColumn('users', "isActive");
+    await queryInterface.addColumn({
+      tableName: 'users',
+      schema: "nodejs-restful"
+    }, "isActive");
   }
 };

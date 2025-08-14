@@ -1,8 +1,8 @@
 const db = require("../../../../core");
 const Carts = require("../carts/Carts");
 const { Contacts } = require("../contacts");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const Users = sequelize.define(
     "Users",
@@ -44,19 +44,19 @@ const Users = sequelize.define(
         tableName: "users",
         timestamps: true,
         hooks : {
-            afterCreate: (record, options) => {
+            afterCreate: (record) => {
                 delete record.dataValues.password,
                 delete record.dataValues.token,
                 delete record.dataValues.roleId,
                 delete record.dataValues.isActive,
-                delete record.dataValues.otpCode
+                delete record.dataValues.otpCode;
             },
-            afterSave: (record, options) => {
+            afterSave: (record) => {
                 delete record.dataValues.password,
                 delete record.dataValues.token,
                 delete record.dataValues.roleId,
                 delete record.dataValues.isActive,
-                delete record.dataValues.otpCode
+                delete record.dataValues.otpCode;
             }
         }
     }
@@ -67,7 +67,7 @@ Users.associate = (models) => {
       foreignKey: "roleId",
       as: "roles"
     });
-}
+};
 
 Users.hasOne(Contacts, {
     foreignKey: "username",
@@ -78,4 +78,4 @@ Users.hasMany(Carts, {
     as: "carts"});
 
 
-module.exports = Users
+module.exports = Users;

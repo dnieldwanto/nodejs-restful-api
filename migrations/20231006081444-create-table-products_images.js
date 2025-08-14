@@ -3,7 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('products_image', { 
+    await queryInterface.createTable({
+      tableName: 'products-image',
+      schema: "nodejs-restful"
+    }, { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -16,7 +19,8 @@ module.exports = {
         unique: true,
         references: {
           model: {
-            tableName: "products"
+            tableName: "products",
+            schema: "nodejs-restful"
           },
           key: "id"
         }
@@ -43,6 +47,9 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('products_image');
+    await queryInterface.dropTable({
+      tableName: 'products-image',
+      schema: "nodejs-restful"
+    });
   }
 };

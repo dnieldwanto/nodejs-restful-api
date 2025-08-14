@@ -1,14 +1,14 @@
 const express = require("express");
-const authRoute = require("./auth")
-const usersRoute = require("./users")
-const contactRoute = require("./contact")
-const addressRoute = require("./address")
-const categoryRoute = require("./category")
-const supplierRoute = require("./suppliers")
-const productsRoute = require("./products")
-const ordersRoute = require("./orders")
+const authRoute = require("./auth");
+const usersRoute = require("./users");
+const contactRoute = require("./contact");
+const addressRoute = require("./address");
+const categoryRoute = require("./category");
+const supplierRoute = require("./suppliers");
+const productsRoute = require("./products");
+const ordersRoute = require("./orders");
 const adminRoute = require("./admin");
-const cartRoute = require("./carts")
+const cartRoute = require("./carts");
 
 const router = express.Router();
 router.use("/auth", authRoute());
@@ -22,4 +22,4 @@ router.use("/orders", ordersRoute());
 router.use("/admin", adminRoute());
 router.use("/cart", cartRoute());
 
-module.exports = () => router
+module.exports = () => router;

@@ -1,7 +1,6 @@
 const db = require("../../../../core");
-const Carts = require("../carts/Carts");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const ProductsImage = sequelize.define(
     "ProductsImage",
@@ -46,11 +45,11 @@ const ProductsImage = sequelize.define(
         tableName: "products_image",
         timestamps: false,
         hooks : {
-            afterCreate: (record, options) => {
-                delete record.dataValues.id
+            afterCreate: (record) => {
+                delete record.dataValues.id;
             },
-            afterSave: (record, options) => {
-                delete record.dataValues.id
+            afterSave: (record) => {
+                delete record.dataValues.id;
             }
         }
     }
@@ -63,4 +62,4 @@ ProductsImage.associate = (models) => {
 };
 
 
-module.exports = ProductsImage
+module.exports = ProductsImage;

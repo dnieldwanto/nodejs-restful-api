@@ -10,4 +10,4 @@ const getByIdSchema = Joi.number().required();
 module.exports = {
     createUpdateCategorySchema,
     getByIdSchema
-}
+};

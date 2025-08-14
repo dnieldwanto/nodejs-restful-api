@@ -1,9 +1,9 @@
 const { elasticsearch } = require("../../core");
-const { esClient } = elasticsearch
+const { esClient } = elasticsearch;
 
 const createIndex = (index) => {
     return esClient.indices.create({index});
-}
+};
 
 const insertDoc = (index, _id, data) => {
     return esClient.index({
@@ -11,7 +11,7 @@ const insertDoc = (index, _id, data) => {
         id: _id,
         body: data
     });
-}
+};
 
 const updateDoc = (index, _id, data) => {
     return esClient.update({
@@ -20,8 +20,8 @@ const updateDoc = (index, _id, data) => {
         body: {
             doc: data
         }
-    })
-}
+    });
+};
 
 const searchInIndex = (index, query, from, size, attributes, sortArray = []) => {
     return esClient.search({
@@ -36,11 +36,11 @@ const searchInIndex = (index, query, from, size, attributes, sortArray = []) => 
         from,
         size
     });
-}
+};
 
 module.exports = {
     createIndex,
     searchInIndex,
     insertDoc,
     updateDoc
-}
+};

@@ -1,10 +1,10 @@
-const express = require("express")
+const express = require("express");
 const response = require("../../../response");
-const { genericResponse } = response.genericResponse
-const middleware = require("../../../middleware")
-const { authentication, checkRole } = middleware.authMiddleware
+const { genericResponse } = response.genericResponse;
+const middleware = require("../../../middleware");
+const { authentication, checkRole } = middleware.authMiddleware;
 const multer = middleware.multer;
-const controller = require("../../../controller")
+const controller = require("../../../controller");
 const userController = controller.userController;
 const categoryController = controller.categoryController;
 const supplierController = controller.supplierController;
@@ -26,6 +26,6 @@ adminRouter.put("/products/:id", authentication, checkRole, multer, productContr
 adminRouter.put("/orders/:id", authentication, checkRole, orderController.done, genericResponse);
 adminRouter.get("/orders", authentication, checkRole, orderController.allOrders, genericResponse);
 adminRouter.get("/cart", authentication, checkRole, cartController.allCarts, genericResponse);
-adminRouter.post("/vouchers", authentication, checkRole, voucherController.createVoucher, genericResponse)
+adminRouter.post("/vouchers", authentication, checkRole, voucherController.createVoucher, genericResponse);
 
 module.exports = () => adminRouter;

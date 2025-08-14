@@ -9,7 +9,7 @@ const getUserByUsername = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const getAllUsers = async (req, res, next) => {
     try {
@@ -19,7 +19,7 @@ const getAllUsers = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const userUpdate = async (req, res, next) => {
     try {
@@ -30,7 +30,7 @@ const userUpdate = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 const userDelete = async (req, res, next) => {
     try {
@@ -41,11 +41,11 @@ const userDelete = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 module.exports = {
     getUserByUsername,
     getAllUsers,
     userUpdate,
     userDelete
-}
+};

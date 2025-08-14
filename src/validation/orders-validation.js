@@ -11,7 +11,7 @@ const createOrderSchema = Joi.object({
 const orderDetailsSchema = Joi.object({
     orderNumber: Joi.string().required(),
     username: Joi.string().required()
-})
+});
 
 const getIdOrderSchema = Joi.string().required();
 
@@ -19,4 +19,4 @@ module.exports = {
     createOrderSchema,
     getIdOrderSchema,
     orderDetailsSchema
-}
+};

@@ -1,15 +1,11 @@
 const sequelize = require("./sequelize");
-const utils = require("./utils")
+const utils = require("./utils");
 const elasticsearch = require("./elasticsearch");
-const mongoose = require("./mongoose")
-const sendFCM = require("./fcm")
-const midtrans = require("./midtrans");
+const mongoose = require("./mongoose");
 
 module.exports = {
     sequelize,
     utils,
     elasticsearch,
-    mongoose,
-    sendFCM,
-    midtrans
-}
+    mongoose
+};

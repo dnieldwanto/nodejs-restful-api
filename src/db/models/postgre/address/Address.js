@@ -1,6 +1,6 @@
 const db = require("../../../../core");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const Address = sequelize.define(
   "Address",
@@ -37,11 +37,11 @@ const Address = sequelize.define(
       tableName: "address",
       timestamps: false,
       hooks : {
-          afterCreate: (record, options) => {
-              delete record.dataValues.id
+          afterCreate: (record) => {
+              delete record.dataValues.id;
           },
-          afterSave: (record, options) => {
-              delete record.dataValues.id
+          afterSave: (record) => {
+              delete record.dataValues.id;
           }
       }
   }
@@ -51,6 +51,6 @@ Address.associate = (models) => {
     foreignKey: "contactId",
     as: "contacts"
   });
-}
+};
 
-module.exports = Address
+module.exports = Address;

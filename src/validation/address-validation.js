@@ -13,4 +13,4 @@ const validIdSchema = Joi.number().required();
 module.exports = {
     createUpdateAddressSchema,
     validIdSchema
-}
+};

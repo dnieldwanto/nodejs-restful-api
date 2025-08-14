@@ -8,16 +8,16 @@ const socketConnection = (server) => {
         }
     });
 
-    io.on("connection", (socket) => {
+    io.on("connection", () => {
         console.log("User Connected");
     });
-}
+};
 
 const sendMessage = (channel, message) => {
     io.emit(channel, message);
-}
+};
 
 module.exports = {
     socketConnection,
     sendMessage
-}
+};

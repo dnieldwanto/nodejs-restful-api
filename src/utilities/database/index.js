@@ -6,24 +6,24 @@ const saveData = (payload, model, transaction = null) => {
     return postgresDB[model].create(payload, { transaction });
 };
 
-const findAllData = (condition, model, order = null, attributes, include = []) => {
+const findAllData = (condition, model, order = null, attributes) => {
   let query = {
     attributes
-  }
+  };
 
   if (condition) {
-    query.where = condition
+    query.where = condition;
   }
 
   if (order) {
-    query.order = [order]
+    query.order = [order];
   }
-  return postgresDB[model].findAll(query)
-}
+  return postgresDB[model].findAll(query);
+};
 
 const findByPrimaryKey = (primaryKey, model, attributes) => {
   return postgresDB[model].findByPk(primaryKey, {attributes});
-}
+};
 
 const findOneByCondition = (condition, model, attributes, include = [], options ={}) => {
     return postgresDB[model].findOne({
@@ -44,7 +44,7 @@ const updateData = (condition, payload, model, transaction = null) => {
       transaction: transaction
     }
     );
-}
+};
 
 const deleteData = (condition, model, transaction = null) => {
   return postgresDB[model].destroy(
@@ -53,7 +53,7 @@ const deleteData = (condition, model, transaction = null) => {
     },
     { transaction: transaction }
   );
-}
+};
 
 module.exports = {
     saveData,
@@ -62,4 +62,4 @@ module.exports = {
     findOneByCondition,
     updateData,
     deleteData
-}
+};

@@ -1,3 +1,3 @@
-const Orders = require("./orders")
+const Orders = require("./orders");
 
-module.exports = Orders
+module.exports = Orders;

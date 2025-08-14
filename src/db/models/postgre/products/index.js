@@ -4,4 +4,4 @@ const ProductsImage = require("./ProductsImage");
 module.exports = {
     Products,
     ProductsImage
-}
+};

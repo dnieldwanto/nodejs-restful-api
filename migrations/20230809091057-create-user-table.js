@@ -3,7 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports =  {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('users', { 
+    await queryInterface.createTable({
+      tableName: 'users',
+      schema: "nodejs-restful"
+    }, { 
       username: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -22,11 +25,14 @@ module.exports =  {
       },
       updatedAt: {
         type: Sequelize.DATE
-      }
+      },
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable({
+      tableName: 'users',
+      schema: "nodejs-restful"
+    });
   }
 };

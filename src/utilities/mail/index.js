@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
-const config = require("config")
-const mail = config.get("development").mailVerification
+const config = require("config");
+const mail = config.get("development").mailVerification;
 
 const sendEmailVerification = (email, otpCode) => {
     const transporter = nodemailer.createTransport({
@@ -20,13 +20,13 @@ const sendEmailVerification = (email, otpCode) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            next(err)
+            console.error("Email error: " + err.message);
         } else {
             console.log("Email sent: " + info.response);
         }
-    })
-}
+    });
+};
 
 module.exports = {
     sendEmailVerification
-}
+};

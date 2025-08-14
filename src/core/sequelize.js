@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 const config = require("config");
 const dev = config.get("development").database.postgres;
-const db = {}
+const db = {};
 
 const sequelize = new Sequelize(
   dev.database,
@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
     dialect: dev.dialect,
     host: dev.host,
     port: dev.port,
+    schema: dev.schema,
     pool: {
       max: 10,
       min: 0,

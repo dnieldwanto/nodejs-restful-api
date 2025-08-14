@@ -5,11 +5,11 @@ const responseGenerator = (req) => {
     if (!_.isEmpty(req)) {
         response.status = 200,
         response.data = req.data || null,
-        response.message = req.message || "OK"
+        response.message = req.message || "OK";
     }
     return response;
-}
+};
 
 module.exports = {
     responseGenerator
-}
+};

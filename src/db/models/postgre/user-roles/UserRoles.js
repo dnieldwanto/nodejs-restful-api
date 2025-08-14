@@ -1,7 +1,7 @@
 const db = require("../../../../core");
 const Users = require("../users/Users");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const UserRoles = sequelize.define(
     "UserRoles",
@@ -25,11 +25,11 @@ const UserRoles = sequelize.define(
         tableName: "user-roles",
         timestamps: false,
         hooks : {
-            afterCreate: (record, options) => {
-                delete record.dataValues.id
+            afterCreate: (record) => {
+                delete record.dataValues.id;
             },
-            afterSave: (record, options) => {
-                delete record.dataValues.id
+            afterSave: (record) => {
+                delete record.dataValues.id;
             }
         }
     }
@@ -39,4 +39,4 @@ UserRoles.hasOne(Users, {
     as: "roles"});
 
 
-module.exports = UserRoles
+module.exports = UserRoles;

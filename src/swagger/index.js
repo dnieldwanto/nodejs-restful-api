@@ -54,9 +54,9 @@ const options = {
 };
 
 const swaggerRoute = express.Router();
-swaggerRoute.get("/swagger.json", (req, res) => res.json(swaggerDocument))
+swaggerRoute.get("/swagger.json", (req, res) => res.json(swaggerDocument));
 swaggerRoute.use("/", swaggerUi.serveFiles(null, options), swaggerUi.setup(openapiSpecification, options));
 
-module.exports = () => swaggerRoute
+module.exports = () => swaggerRoute;
 
 

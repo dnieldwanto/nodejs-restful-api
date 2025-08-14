@@ -11,4 +11,4 @@ const getByIdSchema = Joi.number().required();
 module.exports = {
     createUpdateSupplierSchema,
     getByIdSchema
-}
+};

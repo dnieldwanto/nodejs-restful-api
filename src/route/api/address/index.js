@@ -3,4 +3,4 @@ const router = express.Router();
 const addressAPI = require("./address");
 router.use(addressAPI());
 
-module.exports = () => router
+module.exports = () => router;

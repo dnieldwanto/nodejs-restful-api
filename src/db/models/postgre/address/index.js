@@ -1,3 +1,3 @@
 const Address = require("./Address");
 
-module.exports = {Address}
+module.exports = {Address};

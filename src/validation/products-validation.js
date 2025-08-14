@@ -8,9 +8,9 @@ const createUpdateProductSchema = Joi.object({
     supplierId: Joi.number().required()
 });
 
-const idSchema = Joi.number().required()
+const idSchema = Joi.number().required();
 
 module.exports = {
     createUpdateProductSchema,
     idSchema
-}
+};

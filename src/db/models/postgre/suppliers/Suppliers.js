@@ -1,7 +1,7 @@
 const db = require("../../../../core");
 const { Products } = require("../products");
-const sequelize = db.sequelize.sequelize
-const Sequelize = db.sequelize.Sequelize
+const sequelize = db.sequelize.sequelize;
+const Sequelize = db.sequelize.Sequelize;
 
 const Suppliers = sequelize.define(
     "Suppliers",
@@ -27,11 +27,11 @@ const Suppliers = sequelize.define(
         tableName: "suppliers",
         timestamps: false,
         hooks : {
-            afterCreate: (record, options) => {
-                delete record.dataValues.id
+            afterCreate: (record) => {
+                delete record.dataValues.id;
             },
-            afterSave: (record, options) => {
-                delete record.dataValues.id
+            afterSave: (record) => {
+                delete record.dataValues.id;
             }
         }
     }
@@ -40,4 +40,4 @@ Suppliers.hasMany(Products, {
     foreignKey: "supplierId",
     as: "products"});
 
-module.exports = Suppliers
+module.exports = Suppliers;

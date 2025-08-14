@@ -2,15 +2,15 @@ const db = require("../utilities/database");
 const { ResponseError } = require("../error/response-error.js");
 const { createUpdateCategorySchema, getByIdSchema } = require("../validation/category-validation.js");
 const { validate } = require("../validation/validation.js");
-const elasticsearch = require("../utilities/elasticsearch")
+const elasticsearch = require("../utilities/elasticsearch");
 
 const createCategory = async (request) => {
     const category = validate(createUpdateCategorySchema, request);
     await db.saveData(category, "Categories");
-    const newCategory = await db.findOneByCondition({categoryName: category.categoryName}, "Categories", ["id"])
+    const newCategory = await db.findOneByCondition({categoryName: category.categoryName}, "Categories", ["id"]);
     elasticsearch.insertDoc("category", newCategory.id, category);
     return category;
-}
+};
 
 const updateCategory = async (id, request) => {
     id = validate(getByIdSchema, id);
@@ -23,16 +23,16 @@ const updateCategory = async (id, request) => {
     const payload = {
         categoryName: requestCategory.categoryName,
         description: requestCategory.description
-    }
+    };
     await db.updateData({id: id}, payload, "Categories");
     elasticsearch.updateDoc("category", category.id, payload);
     return payload;
-}
+};
 
 const deleteCategory = async (id) => {
     id = validate(getByIdSchema, id);
     return await db.deleteData({id: id}, "Categories");
-}
+};
 
 const getCategoryById = async (id) => {
     id = validate(getByIdSchema, id);
@@ -42,12 +42,12 @@ const getCategoryById = async (id) => {
     }
 
     return category;
-}
+};
 
 const getAllCategory = async () => {
-    const category = await db.findAllData({}, "Categories", [["id", "asc"]], ["categoryName", "description"], ["products"])
+    const category = await db.findAllData({}, "Categories", [["id", "asc"]], ["categoryName", "description"], ["products"]);
     return category;
-}
+};
 
 module.exports = {
     createCategory,
@@ -55,4 +55,4 @@ module.exports = {
     deleteCategory,
     getCategoryById,
     getAllCategory
-}
+};

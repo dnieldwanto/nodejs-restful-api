@@ -1,6 +1,5 @@
-const db = require("../../../../core")
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
     _id: {
@@ -56,14 +55,10 @@ const OrderSchema = new Schema({
     productId: {
         type: Number,
         required: true
-    },
-    response_midtrans: {
-        type: String,
-        required: true
     }
 }, {
     versionKey: false
-})
+});
 
-const Orders = mongoose.model("orders", OrderSchema)
-module.exports = Orders
+const Orders = mongoose.model("orders", OrderSchema);
+module.exports = Orders;

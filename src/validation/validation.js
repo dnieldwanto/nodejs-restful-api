@@ -1,17 +1,17 @@
-const { ResponseError } = require("../error/response-error")
+const { ResponseError } = require("../error/response-error");
 
 const validate = (schema, request) => {
     const result = schema.validate(request, {
         abortEarly: false,
         allowUnknown: false
-    })
+    });
     if (result.error) {
-        throw new ResponseError(400, result.error.message)
+        throw new ResponseError(400, result.error.message);
     } else {
-        return result.value
+        return result.value;
     }
-}
+};
 
 module.exports = {
     validate
-}
+};

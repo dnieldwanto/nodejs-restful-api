@@ -3,7 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('contacts', 
+    await queryInterface.createTable({
+      tableName: 'contacts',
+      schema: "nodejs-restful"
+    }, 
     { 
       id: {
         type: Sequelize.INTEGER,
@@ -30,7 +33,8 @@ module.exports = {
         unique: true,
         references : {
           model: {
-            tableName: "users"
+            tableName: "users",
+            schema: "nodejs-restful"
           },
           key: "username"
         }
@@ -39,7 +43,10 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('contacts');
+    await queryInterface.dropTable({
+      tableName: 'contacts',
+      schema: "nodejs-restful"
+    });
     
   }
 };

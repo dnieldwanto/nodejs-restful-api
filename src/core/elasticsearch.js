@@ -1,6 +1,6 @@
 const config = require("config");
 const elastic = config.get("development").database.elastic;
-const elasticsearch = require('elasticsearch');
+const elasticsearch = require("elasticsearch");
 
 let esClient = new elasticsearch.Client({
     // node: elastic.node
@@ -13,12 +13,12 @@ esClient.ping({
     requestTimeout: 30000
 }, function (error) {
     if (error) {
-      console.trace('elasticsearch cluster is down!');
+      console.trace("elasticsearch cluster is down!");
     } else {
-      console.log('All is well');
+      console.log("All is well");
     }
-})
+});
 
 module.exports = {
     esClient
-}
+};

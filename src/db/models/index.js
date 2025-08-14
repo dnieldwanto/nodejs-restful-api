@@ -1,7 +1,7 @@
 const postgreDB = require("./postgre");
-const mongoDB = require("./mongodb")
+const mongoDB = require("./mongodb");
 
 module.exports = {
   postgreDB,
   mongoDB
-}
+};

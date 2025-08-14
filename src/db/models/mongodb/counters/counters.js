@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const CountersSchema = new Schema({
     _id: {
@@ -12,7 +12,7 @@ const CountersSchema = new Schema({
     }
 }, {
     versionKey: false
-})
+});
 
-const Counters = mongoose.model("counter", CountersSchema)
-module.exports = Counters
+const Counters = mongoose.model("counter", CountersSchema);
+module.exports = Counters;

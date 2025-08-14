@@ -1,8 +1,8 @@
-const db = require("../utilities/database")
+const db = require("../utilities/database");
 const { sendEmailVerification } = require("../utilities/mail");
 const { ResponseError } = require("../error/response-error.js");
-const { createUser, loginUserSchema } = require("../validation/auth-validation.js")
-const { validate } = require("../validation/validation.js")
+const { createUser, loginUserSchema } = require("../validation/auth-validation.js");
+const { validate } = require("../validation/validation.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
@@ -21,17 +21,17 @@ const registerUser = async (request) => {
         );
 
     if (findUser) {
-        throw new ResponseError(400, "Username already exists")
+        throw new ResponseError(400, "Username already exists");
     }
 
     user.password = await bcrypt.hash(user.password, 10);
     const otp = generateOtpCode(4);
     const userCreate = await db.saveData({username: user.username, password: user.password, roleId: 2, otpCode: otp}, "Users");
 
-    const contacts = await db.saveData({firstName: user.firstName, lastName: user.lastName, email: user.email, phone: null, username: userCreate.username}, "Contacts")
+    const contacts = await db.saveData({firstName: user.firstName, lastName: user.lastName, email: user.email, phone: null, username: userCreate.username}, "Contacts");
     sendEmailVerification(contacts.email, otp);
     return userCreate;
-}
+};
 
 const verificationUser = async (request) => {
     const user = await db.findOneByCondition(
@@ -43,19 +43,19 @@ const verificationUser = async (request) => {
         );
 
     if (!user) {
-        throw new ResponseError(404, "User not found")
+        throw new ResponseError(404, "User not found");
     }
 
     if (user.otpCode !== request.otpCode) {
-        throw new ResponseError(400, "Invalid Code Verification")
+        throw new ResponseError(400, "Invalid Code Verification");
     }
     return await db.updateData({username: request.username}, {isActive: 1}, "Users");
-}
+};
 
 const loginUser = async (request) => {
     const validLogin = validate(loginUserSchema, request);
 
-    const dataUser = await db.findOneByCondition({username: validLogin.username}, "Users", ["username", "password", "roleId", "createdAt", "updatedAt"])
+    const dataUser = await db.findOneByCondition({username: validLogin.username}, "Users", ["username", "password", "roleId", "createdAt", "updatedAt"]);
     if (!dataUser) {
         throw new ResponseError(401, "Username atau password salah");
     }
@@ -79,14 +79,14 @@ const loginUser = async (request) => {
     const result = {
         type: "Bearer",
         token: token
-    }
+    };
 
     return result;
-}
+};
 
 const logoutUser = async (username) => {
     username = validate(getByUsernameSchema, username);
-    const user = await db.findOneByCondition({username: username}, "Users", ["username", "createdAt", "updatedAt"])
+    const user = await db.findOneByCondition({username: username}, "Users", ["username", "createdAt", "updatedAt"]);
 
     if (!user) {
         throw new ResponseError(404, "User Not Found");
@@ -94,17 +94,17 @@ const logoutUser = async (username) => {
 
     user.token = null;
     return await db.updateData({username: user.username}, {token: user.token}, "Users");
-}
+};
 
 const generateOtpCode = (length) => {
     const min = Math.pow(10, (length - 1));
     const max = Math.pow(10, (length));
     return Math.floor(Math.random() * (max - min) + min);
-}
+};
 
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
     verificationUser
-}
+};

@@ -12,4 +12,4 @@ const getIdSchema = Joi.number().required();
 module.exports = {
     createUpdateContactSchema,
     getIdSchema
-}
+};
